@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "username": "Da-gen Username",
+          "password": "Password"
+        },
+        "description": "Enter your Da-gen credentials.",
+        "title": "Authentication"
+      },
+      "reauth_confirm": {
+        "title": "[%key:common::config_flow::title::reauth%]",
+        "description": "The Da-gen integration needs to re-authenticate your account"
+      },
+      "pool": {
+        "data": {
+          "CONF_POOL_ID": "Pools:"
+        },
+        "description": "Please choose the pool to add",
+        "title": "Setup Pool"
+      }
+    },
+    "error": {
+      "auth_error": "Authorization failed, check username and password."
+    },
+    "abort": {
+      "reauth_successful": "New login info has been saved"
+    }
+  }
+}

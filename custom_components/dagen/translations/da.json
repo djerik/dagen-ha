@@ -1,0 +1,31 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "data": {
+          "username": "Da-gen brugernavn",
+          "password": "Kodeord"
+        },
+        "description": "Udfyld dine Da-gen login oplysninger.",
+        "title": "Login"
+      },
+      "reauth_confirm": {
+        "title": "[%key:common::config_flow::title::reauth%]",
+        "description": "Da-gen integrationen kræver at du logger ind igen"
+      },
+      "pool": {
+        "data": {
+          "CONF_POOL_ID": "Pools:"
+        },
+        "description": "Vælg pool der skal tilføjes HA",
+        "title": "Setup Pool"
+      }
+    },
+    "error": {
+      "auth_error": "Login fejlede, check brugernavn og password."
+    },
+    "abort": {
+      "reauth_successful": "Nye login oplysninger gemt"
+    }
+  }
+}
