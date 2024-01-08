@@ -34,7 +34,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
         DagenValueSensorEntity(
             hass,
             dataservice,
-            "CI",
+            "Cl",
             "modules.cl.current",
         ),
     )
