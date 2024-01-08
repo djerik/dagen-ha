@@ -5,8 +5,6 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
 
-#from .dagen import Dagen
-
 async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> bool:
     """Set up a config entry."""
     dataservice = hass.data[DOMAIN].get(entry.entry_id)
@@ -40,3 +38,8 @@ class DagenLightEntity(CoordinatorEntity, LightEntity):
     async def async_turn_off(self, **kwargs):
         """Turn the entity off."""
         await self._dataservice.turn_off_light()
+
+    @property
+    def unique_id(self):
+        """The unique id of the sensor."""
+        return self._unique_id
