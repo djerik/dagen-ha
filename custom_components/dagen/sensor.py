@@ -22,31 +22,65 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
         ),
     )
 
-    entities.append(
-        DagenValueSensorEntity(
-            hass,
-            dataservice,
-            "pH",
-            "modules.ph.current",
-        ),
-    )
-    entities.append(
-        DagenValueSensorEntity(
-            hass,
-            dataservice,
-            "Cl",
-            "modules.cl.current",
-        ),
-    )
+    if dataservice.get_value( "main.hasCD"):
+        entities.append(
+            DagenValueSensorEntity(
+                hass,
+                dataservice,
+                "CD",
+                "modules.cl.current",
+            ),
+        )
 
-    entities.append(
-        DagenHydrolyserSensorEntity(
-            hass,
-            dataservice,
-            "Hydrolyser Load",
-            "hidro.current",
-        ),
-    )
+    if dataservice.get_value( "main.hasCL"):
+        entities.append(
+            DagenValueSensorEntity(
+                hass,
+                dataservice,
+                "Cl",
+                "modules.cl.current",
+            ),
+        )
+
+    if dataservice.get_value( "main.hasPH"):
+        entities.append(
+            DagenValueSensorEntity(
+                hass,
+                dataservice,
+                "pH",
+                "modules.ph.current",
+            ),
+        )
+
+    if dataservice.get_value( "main.hasRX"):
+        entities.append(
+            DagenValueSensorEntity(
+                hass,
+                dataservice,
+                "RX",
+                "modules.rx.current",
+            ),
+        )
+
+    if dataservice.get_value( "main.hasUV"):
+        entities.append(
+            DagenValueSensorEntity(
+                hass,
+                dataservice,
+                "UV",
+                "modules.rx.current",
+            ),
+        )
+
+    if dataservice.get_value( "main.hasHidro"):
+        entities.append(
+            DagenHydrolyserSensorEntity(
+                hass,
+                dataservice,
+                "Electrolysis" if dataservice.get_value( "hidro.is_electrolysis") else "Hidrolysis",
+                "hidro.current",
+            ),
+        )
 
     async_add_entities(entities)
 

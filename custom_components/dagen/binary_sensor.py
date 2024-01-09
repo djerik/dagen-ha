@@ -17,9 +17,10 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     entities.append(DagenBinarySensorEntity(hass, dataservice, "FL1", "hidro.fl1"))
 
-    entities.append(DagenBinarySensorEntity(hass, dataservice, "FL2", "hidro.fl2"))
+    if dataservice.get_value( "main.hasCL"):
+        entities.append(DagenBinarySensorEntity(hass, dataservice, "FL2", "hidro.fl2"))
 
-    entities.append(DagenBinarySensorEntity(hass, dataservice, "Hydrolyser", "hidro.low"))
+    entities.append(DagenBinarySensorEntity(hass, dataservice, "Hidrolysis Low", "hidro.low"))
 
     async_add_entities(entities)
 
