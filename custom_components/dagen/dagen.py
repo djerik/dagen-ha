@@ -89,7 +89,8 @@ class Dagen:
         )
         for poolId in user_dict["pools"]:
             pooldict = self.client.collection("pools").document(poolId).get().to_dict()
-            data[poolId] = pooldict["form"]["name"]
+            if pooldict is not None:
+                data[poolId] = pooldict["form"]["name"]
         return data
 
     def get_pool(self, pool_id)-> DocumentSnapshot:

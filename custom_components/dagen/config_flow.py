@@ -1,5 +1,4 @@
 """Config Flow."""
-import logging
 from typing import Any, Optional
 
 import voluptuous as vol
@@ -12,12 +11,9 @@ import homeassistant.helpers.config_validation as cv
 from .const import DOMAIN
 from .dagen import Dagen, UnauthorizedException
 
-_LOGGER = logging.getLogger(__name__)
-
 AUTH_SCHEMA = vol.Schema(
     {vol.Required(CONF_USERNAME): cv.string, vol.Required(CONF_PASSWORD): cv.string}
 )
-
 
 class DagenConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Da-gen config flow."""
@@ -40,6 +36,10 @@ class DagenConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_pool(self, user_input: Optional[dict[str, Any]] = None):
         """Second step in config flow to choose the pool."""
         errors = {}
+        if user_input is not None:
+            self.data["pool_id"] = user_input["pool_id"]
+            return await self.async_create_entry(title=self.data['pools'][ self.data["pool_id"] ], data=self.data)
+
         try:
             api : Dagen = await Dagen.create( async_get_clientsession(self.hass), self.data[CONF_USERNAME], self.data[CONF_PASSWORD])
         except UnauthorizedException:
@@ -48,15 +48,9 @@ class DagenConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 step_id="user", data_schema=AUTH_SCHEMA, errors=errors
             )
 
-        pools = await api.get_pools()
+        self.data['pools'] = await api.get_pools()
 
-        # all_pools = {l["ulc"]: l["name"] for l in locations}
-
-        if user_input is not None:
-            self.data["pool_id"] = user_input["pool_id"]
-            return await self.async_create_entry(title="Dagen", data=self.data)
-
-        POOL_SCHEMA = vol.Schema({vol.Optional("pool_id"): vol.In(pools)})
+        POOL_SCHEMA = vol.Schema({vol.Optional("pool_id"): vol.In(self.data['pools'])})
 
         return self.async_show_form(
             step_id="pool", data_schema=POOL_SCHEMA, errors=errors
