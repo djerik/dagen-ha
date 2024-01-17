@@ -1,4 +1,4 @@
-"""Dagen value sensors."""
+"""Aquarite value sensors."""
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.const import PERCENTAGE, UnitOfElectricPotential, UnitOfTemperature
 from homeassistant.core import HomeAssistant
@@ -22,7 +22,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
     entities = []
 
     entities.append(
-        DagenTemperatureSensorEntity(
+        AquariteTemperatureSensorEntity(
             hass,
             dataservice,
             "Temperature",
@@ -32,7 +32,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     if dataservice.get_value( PATH_HASCD ):
         entities.append(
-            DagenValueSensorEntity(
+            AquariteValueSensorEntity(
                 hass,
                 dataservice,
                 "CD",
@@ -42,7 +42,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     if dataservice.get_value( PATH_HASCL ):
         entities.append(
-            DagenValueSensorEntity(
+            AquariteValueSensorEntity(
                 hass,
                 dataservice,
                 "Cl",
@@ -55,7 +55,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     if dataservice.get_value( PATH_HASPH ):
         entities.append(
-            DagenValueSensorEntity(
+            AquariteValueSensorEntity(
                 hass,
                 dataservice,
                 "pH",
@@ -67,7 +67,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     if dataservice.get_value( PATH_HASRX ):
         entities.append(
-            DagenRxValueSensorEntity(
+            AquariteRxValueSensorEntity(
                 hass,
                 dataservice,
                 "Rx",
@@ -77,7 +77,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     if dataservice.get_value( PATH_HASUV ):
         entities.append(
-            DagenValueSensorEntity(
+            AquariteValueSensorEntity(
                 hass,
                 dataservice,
                 "UV",
@@ -87,7 +87,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     if dataservice.get_value( PATH_HASHIDRO ):
         entities.append(
-            DagenHydrolyserSensorEntity(
+            AquariteHydrolyserSensorEntity(
                 hass,
                 dataservice,
                 "Electrolysis" if dataservice.get_value( "hidro.is_electrolysis") else "Hidrolysis",
@@ -97,8 +97,8 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     async_add_entities(entities)
 
-class DagenTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
-    """Dagen Temperature Sensor Entity."""
+class AquariteTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
+    """Aquarite Temperature Sensor Entity."""
 
     _attr_device_class = SensorDeviceClass.TEMPERATURE
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
@@ -126,8 +126,8 @@ class DagenTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
         """The unique id of the sensor."""
         return self._unique_id
 
-class DagenValueSensorEntity(CoordinatorEntity, SensorEntity):
-    """Dagen Value Sensor Entity."""
+class AquariteValueSensorEntity(CoordinatorEntity, SensorEntity):
+    """Aquarite Value Sensor Entity."""
 
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path, device_class:SensorDeviceClass = None, native_unit_of_measurement:str = None, icon:str = None) -> None:
         """Initialize Value Sensor such as pH."""
@@ -150,8 +150,8 @@ class DagenValueSensorEntity(CoordinatorEntity, SensorEntity):
         """The unique id of the sensor."""
         return self._unique_id
 
-class DagenHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
-    """Dagen Hydrolyser Sensor Entity."""
+class AquariteHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
+    """Aquarite Hydrolyser Sensor Entity."""
 
     _attr_icon = "mdi:gauge"
     _attr_native_unit_of_measurement = PERCENTAGE
@@ -174,8 +174,8 @@ class DagenHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
         """The unique id of the sensor."""
         return self._unique_id
 
-class DagenRxValueSensorEntity(CoordinatorEntity, SensorEntity):
-    """Dagen Rx Sensor Entity."""
+class AquariteRxValueSensorEntity(CoordinatorEntity, SensorEntity):
+    """Aquarite Rx Sensor Entity."""
 
     _attr_icon = "mdi:gauge"
     _attr_native_unit_of_measurement = UnitOfElectricPotential.MILLIVOLT
