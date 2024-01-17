@@ -1,4 +1,4 @@
-"""Coordinator for Dagen."""
+"""Coordinator for Aquarite."""
 import asyncio
 import logging
 from typing import Any
@@ -8,8 +8,8 @@ from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
 _LOGGER = logging.getLogger(__name__)
 
-class DagenDataCoordinator(DataUpdateCoordinator):
-    """Dagen custom coordinator."""
+class AquariteDataCoordinator(DataUpdateCoordinator):
+    """Aquarite custom coordinator."""
 
     def __init__(self, hass : HomeAssistant, api) -> None:
         """Initialize my coordinator."""
@@ -17,7 +17,7 @@ class DagenDataCoordinator(DataUpdateCoordinator):
             hass,
             _LOGGER,
             # Name of the data. For logging purposes.
-            name="Dagen",
+            name="Aquarite",
         )
         self.api = api
 
