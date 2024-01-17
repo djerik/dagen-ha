@@ -3,15 +3,15 @@
     "step": {
       "user": {
         "data": {
-          "username": "Da-gen Username",
+          "username": "Hayward Username",
           "password": "Password"
         },
-        "description": "Enter your Da-gen credentials.",
+        "description": "Enter your Hayward credentials.",
         "title": "Authentication"
       },
       "reauth_confirm": {
         "title": "[%key:common::config_flow::title::reauth%]",
-        "description": "The Da-gen integration needs to re-authenticate your account"
+        "description": "The Hayward integration needs to re-authenticate your account"
       },
       "pool": {
         "data": {
