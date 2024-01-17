@@ -1,4 +1,4 @@
-# HayWard Aquarite integration for Home Assistant
+# Hayward Aquarite integration for Home Assistant
 
 ## Requirements
 - An Hayward Aquarite with wifi module connected to the internet.
