@@ -1,4 +1,4 @@
-"""Dagen light entity."""
+"""Aquarite light entity."""
 from homeassistant.components.light import LightEntity
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -11,15 +11,15 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     entities = []
 
-    entities.append(DagenLightEntity(hass, dataservice, "Light", "light.status"))
+    entities.append(AquariteLightEntity(hass, dataservice, "Light", "light.status"))
 
     async_add_entities(entities)
 
-class DagenLightEntity(CoordinatorEntity, LightEntity):
-    """Dagen Light Sensor Entity."""
+class AquariteLightEntity(CoordinatorEntity, LightEntity):
+    """Aquarite Light Sensor Entity."""
 
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
-        """Initialize a Dagen Light Sensor Entity."""
+        """Initialize a Aquarite Light Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._attr_name = name
