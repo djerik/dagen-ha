@@ -15,26 +15,26 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     entities = []
 
-    entities.append(DagenBinarySensorEntity(hass, dataservice, "FL1", "hidro.fl1"))
+    entities.append(AquariteBinarySensorEntity(hass, dataservice, "FL1", "hidro.fl1"))
 
     if dataservice.get_value( "main.hasCL"):
-        entities.append(DagenBinarySensorEntity(hass, dataservice, "FL2", "hidro.fl2"))
+        entities.append(AquariteBinarySensorEntity(hass, dataservice, "FL2", "hidro.fl2"))
 
     if dataservice.get_value( PATH_HASCD ) or \
        dataservice.get_value( PATH_HASCL ) or \
        dataservice.get_value( PATH_HASPH ) or \
        dataservice.get_value( PATH_HASRX ):
-        entities.append(DagenBinarySensorTankEntity(hass, dataservice, "Acid Tank" ) )
+        entities.append(AquariteBinarySensorTankEntity(hass, dataservice, "Acid Tank" ) )
 
-    entities.append(DagenBinarySensorEntity(hass, dataservice, "Electrolysis Low" if dataservice.get_value( "hidro.is_electrolysis") else "Hidrolysis Low", "hidro.low"))
+    entities.append(AquariteBinarySensorEntity(hass, dataservice, "Electrolysis Low" if dataservice.get_value( "hidro.is_electrolysis") else "Hidrolysis Low", "hidro.low"))
 
     async_add_entities(entities)
 
-class DagenBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
-    """Dagen Binary Sensor Entity such flow sensors FL1 & FL2."""
+class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
+    """Aquarite Binary Sensor Entity such flow sensors FL1 & FL2."""
 
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
-        """Initialize a Dagen Binary Sensor Entity."""
+        """Initialize a Aquarite Binary Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._attr_name = name
@@ -56,11 +56,11 @@ class DagenBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
         """The unique id of the sensor."""
         return self._unique_id
 
-class DagenBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
-    """Dagen Binary Sensor Entity Tank."""
+class AquariteBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
+    """Aquarite Binary Sensor Entity Tank."""
 
     def __init__(self, hass : HomeAssistant, dataservice, name) -> None:
-        """Initialize a Dagen Binary Sensor Entity."""
+        """Initialize a Aquarite Binary Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._attr_name = name
