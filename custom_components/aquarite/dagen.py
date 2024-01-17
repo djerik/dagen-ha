@@ -1,4 +1,4 @@
-"""Module for handling Dagen API."""
+"""Module for handling Aquarite API."""
 import datetime
 from http import HTTPStatus
 import json
@@ -12,7 +12,7 @@ from google.oauth2.credentials import Credentials
 import requests
 from requests import HTTPError
 
-__title__ = "dagen"
+__title__ = "aquarite"
 __version__ = "1.0.0"
 __author__ = "Tobias Laursen"
 __license__ = "MIT"
@@ -21,11 +21,11 @@ API_KEY = "AIzaSyBLaxiyZ2nS1KgRBqWe-NY4EG7OzG5fKpE"
 GOOGLE_IDENTITY_REST_API = "https://identitytoolkit.googleapis.com/v1/accounts"
 HAYWARD_REST_API = "https://europe-west1-hayward-europe.cloudfunctions.net/"
 
-class Dagen:
-    """Dagen API."""
+class Aquarite:
+    """Aquarite API."""
 
     def __init__(self, aiohttp_session: aiohttp.ClientSession, username : str, password : str)-> None:
-        """Init Dagen API."""
+        """Init Aquarite API."""
         self.aiohttp_session: aiohttp.ClientSession = aiohttp_session
         self.username = username
         self.password = password
@@ -37,7 +37,7 @@ class Dagen:
 
     @classmethod
     async def create(cls, aiohttp_session: aiohttp.ClientSession, username : str, password : str):
-        """Initiate Dagen async."""
+        """Initiate Aquarite async."""
         instance = cls(aiohttp_session, username, password)
         await instance.signin()
         instance.credentials = Credentials(token=instance.tokens["idToken"], expiry=instance.expiry, refresh_handler=instance.get_token_and_expiry )
