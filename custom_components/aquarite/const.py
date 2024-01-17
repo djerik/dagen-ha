@@ -1,6 +1,6 @@
 """Constants."""
 
-DOMAIN = "dagen"
+DOMAIN = "aquarite"
 PATH_HASCD = "main.hasCD"
 PATH_HASCL = "main.hasCL"
 PATH_HASPH = "main.hasPH"
