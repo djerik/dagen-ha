@@ -1,4 +1,4 @@
-"""The Hayward integration."""
+"""The Aquarite integration."""
 from homeassistant import config_entries, core
 from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAIN
 from homeassistant.components.light import DOMAIN as LIGHT_DOMAIN
