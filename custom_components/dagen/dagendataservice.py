@@ -1,4 +1,4 @@
-class DagenDataService:
+class AquariteDataService:
     """Get and update the latest data."""
 
     def __init__(self, hass, api, pool_id):
@@ -15,7 +15,7 @@ class DagenDataService:
         self.coordinator = DataUpdateCoordinator(
             self.hass,
             _LOGGER,
-            name="DagenDataService",
+            name="AquariteDataService",
             update_method=self.async_update_data,
             update_interval=self.update_interval,
         )
