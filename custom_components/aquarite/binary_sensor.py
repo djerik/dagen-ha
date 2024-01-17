@@ -1,4 +1,4 @@
-"""Dagen binary sensors."""
+"""Aquarite binary sensors."""
 from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
