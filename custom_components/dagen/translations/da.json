@@ -3,15 +3,15 @@
     "step": {
       "user": {
         "data": {
-          "username": "Da-gen brugernavn",
+          "username": "Hayward brugernavn",
           "password": "Kodeord"
         },
-        "description": "Udfyld dine Da-gen login oplysninger.",
+        "description": "Udfyld dine Hayward login oplysninger.",
         "title": "Login"
       },
       "reauth_confirm": {
         "title": "[%key:common::config_flow::title::reauth%]",
-        "description": "Da-gen integrationen kræver at du logger ind igen"
+        "description": "Hayward integrationen kræver at du logger ind igen"
       },
       "pool": {
         "data": {
