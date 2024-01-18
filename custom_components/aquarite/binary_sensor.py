@@ -18,6 +18,8 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
     entities.append(AquariteBinarySensorEntity(hass, dataservice, "FL1", "hidro.fl1"))
 
     entities.append(AquariteBinarySensorEntity(hass, dataservice, "Filtration Status", "filtration.status"))
+    
+    entities.append(AquariteBinarySensorEntity(hass, dataservice, "Backwash Status", "backwash.status"))
    
     if dataservice.get_value( "main.hasCL"):
         entities.append(AquariteBinarySensorEntity(hass, dataservice, "FL2", "hidro.fl2"))
