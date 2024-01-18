@@ -94,25 +94,6 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
                 "hidro.current",
             ),
         )
-
-         """Sensors for Filtration"""
-        entities.append(
-            AquariteValueSensorEntity(
-                hass,
-                dataservice,
-                "Filtration Status",
-                "filtration.status",
-            ),
-        )
-
-       entities.append(
-            AquariteValueSensorEntity(
-                hass,
-                dataservice,
-                "Filtration Mode",
-                "filtration.mode",
-            ),
-        )
     
     async_add_entities(entities)
 
