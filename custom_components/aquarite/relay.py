@@ -37,7 +37,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
 
     async def async_turn_off(self, **kwargs):
         """Turn the entity off."""
-        await self._dataservice.turn_on_relay1()
+        await self._dataservice.turn_off_relay1()
 
     @property
     def unique_id(self):
