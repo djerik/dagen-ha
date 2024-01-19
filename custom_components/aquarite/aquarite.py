@@ -5,6 +5,7 @@ import json
 from typing import Any
 
 import aiohttp
+import logging
 from aiohttp import ClientResponseError
 from aiohttp.client import ClientResponse
 from google.cloud.firestore import Client, DocumentSnapshot
