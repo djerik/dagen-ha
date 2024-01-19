@@ -156,7 +156,7 @@ class Aquarite:
                         },
                 "poolId" : pool_id,
                 "source" : "web"}
-        _LOGGER.debug("data from API: Filtration", pool.get("filtration"))
+        _LOGGER.debug(data)
         return data
 
 
