@@ -1,5 +1,5 @@
 """Aquarite Relay entity."""
-from homeassistant.components.light import SwitchEntity
+from homeassistant.components.switch import SwitchEntity
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
