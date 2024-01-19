@@ -1,4 +1,4 @@
-"""Aquarite Switch entity."""
+"""Aquarite Relay entity."""
 from homeassistant.components.light import SwitchEntity
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
@@ -18,7 +18,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
     async_add_entities(entities)
 
 class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
-    """Aquarite Switch Sensor Entity."""
+    """Aquarite Relay Sensor Entity."""
 
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize a Aquarite Switch Sensor Entity."""
