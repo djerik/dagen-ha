@@ -21,6 +21,8 @@ API_KEY = "AIzaSyBLaxiyZ2nS1KgRBqWe-NY4EG7OzG5fKpE"
 GOOGLE_IDENTITY_REST_API = "https://identitytoolkit.googleapis.com/v1/accounts"
 HAYWARD_REST_API = "https://europe-west1-hayward-europe.cloudfunctions.net/"
 
+_LOGGER = logging.getLogger(__name__)
+
 class Aquarite:
     """Aquarite API."""
 
