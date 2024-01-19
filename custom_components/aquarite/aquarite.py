@@ -12,7 +12,7 @@ from google.oauth2.credentials import Credentials
 import requests
 from requests import HTTPError
 
-__title__ = "aquarite"
+__title__ = "Aquarite"
 __version__ = "1.0.0"
 __author__ = "Tobias Laursen"
 __license__ = "MIT"
