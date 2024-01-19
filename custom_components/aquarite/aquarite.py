@@ -153,6 +153,7 @@ class Aquarite:
                         },
                 "poolId" : pool_id,
                 "source" : "web"}
+        _LOGGER.debug("data from API", data)
         return data
 
 
