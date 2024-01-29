@@ -36,7 +36,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
     @property
     def extra_state_attributes(self):
         attributes = {}
-        attributes['name'] = self._dataservice.get_value(self._value_path))
+        attributes['name'] = self._dataservice.get_value(self._value_path)
         return attributes
 
     async def async_turn_on(self, **kwargs):
