@@ -123,15 +123,15 @@ class Aquarite:
     async def turn_on_relay(self, pool_id, name)-> None:
         """Turn on relay"""
         pool_data = self.__get_pool_as_json(pool_id)
-        pool_data['pool']['relays']['' + name.lower() + '']['info']['onoff'] = 1
-        pool_data['changes'] = '[{"kind": "E", "path": ["relays", "' + name.lower() + '", "info", "onoff"], "lhs": 0, "rhs": 1}]'
+        pool_data["pool"]["relays"]["' + name.lower() + '"]["info"]["onoff"] = 1
+        pool_data["changes"] = '[{"kind": "E", "path": ["relays", "' + name.lower() + '", "info", "onoff"], "lhs": 0, "rhs": 1}]'
         await self.__send_command(pool_data)
 
     async def turn_off_relay(self, pool_id, name)-> None:
         """Turn off relay"""
         pool_data = self.__get_pool_as_json(pool_id)
-        pool_data['pool']['relays']['' + name.lower() + '']['info']['onoff'] = 0
-        pool_data['changes'] = '[{"kind": "E", "path": ["relays",  "' + name.lower() + '", "info", "onoff"], "lhs": 1, "rhs": 0}]'
+        pool_data["pool"]["relays"]["' + name.lower() + '"]["info"]["onoff"] = 0
+        pool_data["changes"] = '[{"kind": "E", "path": ["relays",  "' + name.lower() + '", "info", "onoff"], "lhs": 1, "rhs": 0}]'
         await self.__send_command(pool_data)
     
     async def __send_command(self, data)-> None:
