@@ -126,7 +126,7 @@ class Aquarite:
         _LOGGER.debug(pool_data)
         pool_data['pool']['relays'][name.lower()]['info']['onoff'] = 1
         _LOGGER.debug(pool_data)
-        pool_data['changes'] = [{"kind": "E", "path": ["relays", "' + name.lower() + '", "info", "onoff"], "lhs": 0, "rhs": 1}]
+        pool_data['changes'] = [{"kind": "E", "path": ["relays", " + name.lower() + ", "info", "onoff"], "lhs": 0, "rhs": 1}]
         _LOGGER.debug(pool_data)
         await self.__send_command(pool_data)
 
@@ -134,7 +134,7 @@ class Aquarite:
         """Turn off relay"""
         pool_data = self.__get_pool_as_json(pool_id)
         pool_data['pool']['relays'][name.lower()]['info']['onoff'] = 0
-        pool_data['changes'] = [{"kind": "E", "path": ["relays",  "' + name.lower() + '", "info", "onoff"], "lhs": 1, "rhs": 0}]
+        pool_data['changes'] = [{"kind": "E", "path": ["relays",  " + name.lower() + ", "info", "onoff"], "lhs": 1, "rhs": 0}]
         await self.__send_command(pool_data)
     
     async def __send_command(self, data)-> None:
