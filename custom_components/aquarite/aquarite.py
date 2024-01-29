@@ -120,18 +120,16 @@ class Aquarite:
         pool_data['changes'] = [{"kind": "E", "path": ["light", "status"], "lhs": 1, "rhs": 0}]
         await self.__send_command(pool_data)
 
-    async def turn_on_relay(self, pool_id)-> None:
+    async def turn_on_relay(self, pool_id, name)-> None:
         """Turn on relay"""
         pool_data = self.__get_pool_as_json(pool_id)
-        name = self._name
         pool_data['pool']['relays']['"+name+"']['info']['onoff'] = 1
         pool_data['changes'] = '[{"kind": "E", "path": ["relays", "' + name + '", "info", "onoff"], "lhs": 0, "rhs": 1}]'
         await self.__send_command(pool_data)
 
-    async def turn_off_relay(self, pool_id)-> None:
+    async def turn_off_relay(self, pool_id, name)-> None:
         """Turn off relay"""
         pool_data = self.__get_pool_as_json(pool_id)
-        name = self.name
         pool_data['pool']['relays']['"+name+"']['info']['onoff'] = 0
         pool_data['changes'] = '[{"kind": "E", "path": ["relays",  "' + name + '", "info", "onoff"], "lhs": 1, "rhs": 0}]'
         await self.__send_command(pool_data)
