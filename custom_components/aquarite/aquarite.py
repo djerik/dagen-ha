@@ -123,11 +123,8 @@ class Aquarite:
     async def turn_on_relay(self, pool_id, name)-> None:
         """Turn on relay"""
         pool_data = self.__get_pool_as_json(pool_id)
-        _LOGGER.debug(pool_data)
         pool_data['pool']['relays'][name.lower()]['info']['onoff'] = 1
-        _LOGGER.debug(pool_data)
         pool_data['changes'] = [{"kind": "E", "path": ["relays", name.lower(), "info", "onoff"], "lhs": 0, "rhs": 1}]
-        _LOGGER.debug(pool_data)
         await self.__send_command(pool_data)
 
     async def turn_off_relay(self, pool_id, name)-> None:
@@ -159,6 +156,7 @@ class Aquarite:
                         },
                 "poolId" : pool_id,
                 "source" : "web"}
+        _LOGGER.debug(data)
         return data
 
 
