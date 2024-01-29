@@ -12,7 +12,9 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
     entities = []
 
     entities.append(AquariteSwitchEntity(hass, dataservice, "Relay1", "relays.relay1.info.onoff"))
-
+    entities.append(AquariteSwitchEntity(hass, dataservice, "Relay2", "relays.relay2.info.onoff"))
+    entities.append(AquariteSwitchEntity(hass, dataservice, "Relay3", "relays.relay3.info.onoff"))
+    
     async_add_entities(entities)
 
 class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
@@ -33,11 +35,11 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""
-        await self._dataservice.turn_on_relay1()
+        await self._dataservice.turn_on_relay()
 
     async def async_turn_off(self, **kwargs):
         """Turn the entity off."""
-        await self._dataservice.turn_off_relay1()
+        await self._dataservice.turn_off_relay()
 
     @property
     def unique_id(self):
