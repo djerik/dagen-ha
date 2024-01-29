@@ -21,7 +21,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
     """Aquarite Relay Sensor Entity."""
 
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
-        """Initialize a Aquarite Switch Sensor Entity."""
+        """Initialize a Aquarite Switch Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._attr_name = name
@@ -35,11 +35,11 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""
-        await self._dataservice.turn_on_relay()
+        await self._dataservice.turn_on_relay(name)
 
     async def async_turn_off(self, **kwargs):
         """Turn the entity off."""
-        await self._dataservice.turn_off_relay()
+        await self._dataservice.turn_off_relay(name)
 
     @property
     def unique_id(self):
