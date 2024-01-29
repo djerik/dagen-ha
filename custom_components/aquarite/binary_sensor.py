@@ -53,7 +53,7 @@ class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
     @property
     def device_class(self):
         """Return the class of the binary sensor."""
-        return BinarySensorDeviceClass.PROBLEM
+        return BinarySensorDeviceClass.RUNNING
 
     @property
     def unique_id(self):
