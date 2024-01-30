@@ -129,8 +129,6 @@ class Aquarite:
 
     async def turn_off_relay(self, pool_id, name)-> None:
         """Turn off relay"""
-        relay_name = self._attr_name
-        _LOGGER.debug(relay_name)
         pool_data = self.__get_pool_as_json(pool_id)
         pool_data['pool']['relays'][name.lower()]['info']['onoff'] = 0
         pool_data['changes'] = [{"kind": "E", "path": ["relays", name.lower(), "info", "onoff"], "lhs": 1, "rhs": 0}]
