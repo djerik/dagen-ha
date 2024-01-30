@@ -23,6 +23,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize a Aquarite Switch Entity."""
         super().__init__(dataservice)
+         """ self._attr_device_info =  """
         self._dataservice = dataservice
         self._attr_name = name
         self._value_path = value_path
@@ -34,10 +35,10 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         return bool(self._dataservice.get_value(self._value_path))
 
     @property
-    def extra_state_attributes(self):
+    def extra_state_attributes(self) -> dict[str, str] | None:
         attributes = {}
         attributes['name'] = self._dataservice.get_value(self._value_path)
-        return self._attributes
+        return attributes
 
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""
