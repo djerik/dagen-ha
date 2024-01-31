@@ -53,10 +53,10 @@ class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
     @property
     def device_class(self):
         """Return the class of the binary sensor."""
-        if self._value_path == "hidro.low":
-           return BinarySensorDeviceClass.PROBLEM
+        if self._value_path == "backwash.status":
+           return BinarySensorDeviceClass.RUNNING
             
-        return BinarySensorDeviceClass.RUNNING
+        return BinarySensorDeviceClass.PROBLEM
     
     @property
     def unique_id(self):
