@@ -165,7 +165,6 @@ class Aquarite:
                 "source" : "web"}
         _LOGGER.debug(pool)
         _LOGGER.debug(data)
- """ datetime.fromtimestamp(1485714600).strftime("%A, %B %d, %Y %I:%M:%S")  """
         return data
 
 
