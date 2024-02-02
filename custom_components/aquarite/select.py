@@ -34,7 +34,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
 
     async def async_select_option(self, option: str):
        """Set pump mode"""
-       await self._dataservice.set_pump_mode(self._attr_name)
+       await self._dataservice.set_pump_mode(self._attr_name,option)
 
     @property
     def unique_id(self):
