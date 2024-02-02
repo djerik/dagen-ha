@@ -49,6 +49,10 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
     def options(self) -> list[str]:
         return list(map(lambda option: option.text, self.pump_options))
 
+    async def async_select_option(self, option: str) -> None:
+        """Change the selected option."""
+        pump_option = self.get_pump_state_by_text(option)
+
     def get_pump_state_by_value(self, value: int) -> PumpSelectOption:
         return next(option for option in self.pump_options if option.value == value)
 
