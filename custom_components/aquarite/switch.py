@@ -34,12 +34,6 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         """Return true if the device is on."""
         return bool(self._dataservice.get_value(self._value_path))
 
-    @property
-    def extra_state_attributes(self) -> dict[str, str] | None:
-        attributes = {}
-        attributes['name'] = self._dataservice.get_value(self._value_path)
-        return attributes
-
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""
         await self._dataservice.turn_on_relay(self._attr_name)
