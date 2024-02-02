@@ -5,6 +5,19 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
 
+class PumpSelectOption:
+    def __init__(self, value: int, text: str) -> None:
+        self._value = value
+        self._text = text
+
+    @property
+    def value(self):
+        return self._value
+
+    @property
+    def text(self):
+        return self._text
+
 async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> bool:
     """Set up a config entry."""
     dataservice = hass.data[DOMAIN].get(entry.entry_id)
@@ -26,6 +39,17 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
         self._attr_name = name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
+
+    @property
+    def pump_options(self) -> list[PumpSelectOption]:
+        allowed_values = list("3", "Smart")
+        return allowed_values
+
+    def get_pump_state_by_value(self, value: int) -> PumpSelectOption:
+        return next(option for option in self.pump_options if option.value == value)
+
+    def get_pump_state_by_text(self, text: str) -> PumpSelectOption:
+        return next(option for option in self.pump_options if option.text == text)
 
     @property
     def current_option(self):
