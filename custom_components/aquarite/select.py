@@ -42,7 +42,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
 
     @property
     def pump_options(self) -> list[PumpSelectOption]:
-        allowed_values = list("3", "Smart")
+        allowed_values = list("0", "Manual", "1", "Auto", "2", "Heat", "3", "Smart", "4", "Intel")
         return allowed_values
 
     def get_pump_state_by_value(self, value: int) -> PumpSelectOption:
