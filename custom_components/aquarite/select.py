@@ -21,7 +21,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize a Aquarite Select Entity."""
         super().__init__(dataservice)
-         """ self._attr_device_info =  """
+        """ self._attr_device_info =  """
         self._dataservice = dataservice
         self._attr_name = name
         self._value_path = value_path
