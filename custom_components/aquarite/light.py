@@ -27,6 +27,21 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         self._unique_id = dataservice.get_value("id") + name
 
     @property
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={
+                # Serial numbers are unique identifiers within a specific domain
+                (Aquarite.DOMAIN, self._unique_id)
+            },
+            name=self._attr_name,
+            manufacturer="Hayward",
+            model="Lights",
+            sw_version="0.1",
+            via_device=(Aquarite.DOMAIN, self._unique_id),
+        )
+
+    @property
     def is_on(self):
         """Return true if the device is on."""
         return bool(self._dataservice.get_value(self._value_path))
