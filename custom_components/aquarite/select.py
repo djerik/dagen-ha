@@ -26,16 +26,16 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
         self._attr_name = name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
+        self._allowed_values = ["Manual", "Auto", "Heating", "Smart", "Intel"]
        
     @property
     def options(self) -> list[str]:
-        allowed_values = ["Manual", "Auto", "Heat", "Smart", "Intel"]
-        return list(allowed_values)
+        return list(seld._allowed_values)
 
     @property
     def current_option(self) -> str:
-        """Return current pump mode"""
-        return self._dataservice.get_value(self._value_path)
+        """Return current pump mode"""      
+        return self._allowed_values[self._dataservice.get_value(self._value_path)]
 
     async def async_select_option(self, option: str):
        """Set pump mode"""
