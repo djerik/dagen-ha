@@ -49,11 +49,11 @@ class AquariteDataCoordinator(DataUpdateCoordinator):
         """Turn off relay."""
         await self.api.turn_off_relay( self.data.id, relyName )
 
-     async def turn_on_hidro_cover(self)-> None:
+    async def turn_on_hidro_cover(self)-> None:
         """Turn on hidro cover."""
         await self.api.turn_on_hidro_cover( self.data.id )
 
-     async def turn_off_hidro_cover(self)-> None:
+    async def turn_off_hidro_cover(self)-> None:
         """Turn off hidro cover."""
         await self.api.turn_off_hidro_cover( self.data.id )
 
