@@ -30,6 +30,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         """ self._attr_device_info =  """
         self._dataservice = dataservice
         self._attr_name = DOMAIN + "_" + name
+        self.entity_description = name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
