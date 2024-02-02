@@ -32,7 +32,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
         """Return current pump mode"""
         return self._dataservice.get_value(self._value_path)
 
-    async def async_select_option(self, **kwargs):
+    async def async_select_option(self, option: str):
        """Set pump mode"""
        await self._dataservice.set_pump_mode(self._attr_name)
 
