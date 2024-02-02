@@ -37,7 +37,7 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
 #            manufacturer="Hayward",
 #            model="Lights",
 #            sw_version="0.1",
-#            via_device=(DOMAIN, self.api.get_pools().PoolId),
+#            via_device=(DOMAIN, self._dataservice.pool_id),
 #        )
 
     @property
