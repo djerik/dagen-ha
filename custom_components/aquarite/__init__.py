@@ -11,7 +11,7 @@ from .const import DOMAIN
 from .coordinator import AquariteDataCoordinator
 from .aquarite import Aquarite
 
-PLATFORMS = [BINARY_SENSOR_DOMAIN, LIGHT_DOMAIN, SWITCH_DOMAIN, SENSOR_DOMAIN, SELECT_DOMAIN]
+PLATFORMS = [BINARY_SENSOR_DOMAIN, LIGHT_DOMAIN, SWITCH_DOMAIN, SENSOR_DOMAIN]
 
 async def async_setup_entry(
     hass: core.HomeAssistant, entry: config_entries.ConfigEntry
