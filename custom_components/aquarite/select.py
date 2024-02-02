@@ -30,7 +30,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
        
     @property
     def options(self) -> list[str]:
-        return list(seld._allowed_values)
+        return list(self._allowed_values)
 
     @property
     def current_option(self) -> str:
