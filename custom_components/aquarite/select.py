@@ -26,7 +26,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
         self._attr_name = name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
-        self._allowed_values = ["Manual", "Auto", "Heating", "Smart", "Intel"]
+        self._allowed_values = ["Manual", "Auto", "Heat", "Smart", "Intel"]
        
     @property
     def options(self) -> list[str]:
