@@ -4,6 +4,7 @@ from homeassistant.components.binary_sensor import DOMAIN as BINARY_SENSOR_DOMAI
 from homeassistant.components.light import DOMAIN as LIGHT_DOMAIN
 from homeassistant.components.switch import DOMAIN as SWITCH_DOMAIN
 from homeassistant.components.sensor import DOMAIN as SENSOR_DOMAIN
+from homeassistant.components.select import DOMAIN as SELECT_DOMAIN
 from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
@@ -11,7 +12,7 @@ from .const import DOMAIN
 from .coordinator import AquariteDataCoordinator
 from .aquarite import Aquarite
 
-PLATFORMS = [BINARY_SENSOR_DOMAIN, LIGHT_DOMAIN, SWITCH_DOMAIN, SENSOR_DOMAIN]
+PLATFORMS = [BINARY_SENSOR_DOMAIN, LIGHT_DOMAIN, SWITCH_DOMAIN, SENSOR_DOMAIN, SELECT_DOMAIN]
 
 async def async_setup_entry(
     hass: core.HomeAssistant, entry: config_entries.ConfigEntry
