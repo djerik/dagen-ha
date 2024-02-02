@@ -34,11 +34,11 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""
-        await self._dataservice.turn_on_switch(self._attr_name)
+        await self._dataservice.turn_on_hidro_cover()
 
     async def async_turn_off(self, **kwargs):
         """Turn the entity off."""
-        await self._dataservice.turn_off_switch(self._attr_name)
+        await self._dataservice.turn_off_hidro_cover()
 
     @property
     def unique_id(self):
