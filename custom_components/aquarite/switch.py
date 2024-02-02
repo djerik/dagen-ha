@@ -29,7 +29,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         super().__init__(dataservice)
         """ self._attr_device_info =  """
         self._dataservice = dataservice
-        self._attr_name = name
+        self._attr_name = DOMAIN + name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
