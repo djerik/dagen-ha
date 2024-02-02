@@ -11,13 +11,13 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     entities = []
 
-    entities.append(AquariteSwitchEntity(hass, dataservice, "Relay1", "relays.relay1.info.onoff"))
-    entities.append(AquariteSwitchEntity(hass, dataservice, "Relay2", "relays.relay2.info.onoff"))
-    entities.append(AquariteSwitchEntity(hass, dataservice, "Relay3", "relays.relay3.info.onoff"))
+    entities.append(AquariteRelayEntity(hass, dataservice, "Relay1", "relays.relay1.info.onoff"))
+    entities.append(AquariteRelayEntity(hass, dataservice, "Relay2", "relays.relay2.info.onoff"))
+    entities.append(AquariteRelayEntity(hass, dataservice, "Relay3", "relays.relay3.info.onoff"))
     
     async_add_entities(entities)
 
-class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
+class AquariteRelayEntity(CoordinatorEntity, SwitchEntity):
     """Aquarite Relay Entity."""
 
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
