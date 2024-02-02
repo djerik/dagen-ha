@@ -45,7 +45,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
         allowed_values = [0, "Manual", 1, "Auto", 2, "Heat", 3, "Smart", 4, "Intel"]
         return list(
             map(
-                lambda allowed_values: PumpSelectOption(value["value"], value["name"]), allowed_values
+                PumpSelectOption(value["value"], value["name"]), allowed_values
             )
         )
         
