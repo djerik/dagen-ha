@@ -11,7 +11,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     entities = []
 
-    entities.append(AquariteSwitchEntity(hass, dataservice, "Electrolysis Cover", "hidro.cover"))
+    entities.append(AquariteSwitchEntity(hass, dataservice, "Electrolysis Cover", "hidro.cover_enabled"))
 
     entities.append(AquariteRelayEntity(hass, dataservice, "Relay1", "relays.relay1.info.onoff"))
     entities.append(AquariteRelayEntity(hass, dataservice, "Relay2", "relays.relay2.info.onoff"))
