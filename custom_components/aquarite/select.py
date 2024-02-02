@@ -60,7 +60,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
         return next(option for option in self.pump_options if option.text == text)
 
     @property
-    def current_option(self):
+    def current_option(self) -> str:
         """Return current pump mode"""
         return self._dataservice.get_value(self._value_path)
 
