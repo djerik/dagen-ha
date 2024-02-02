@@ -133,6 +133,20 @@ class Aquarite:
         pool_data['pool']['relays'][relayName.lower()]['info']['onoff'] = 0
         pool_data['changes'] = [{"kind": "E", "path": ["relays", relayName.lower(), "info", "onoff"], "lhs": 1, "rhs": 0}]
         await self.__send_command(pool_data)
+
+    async def turn_on_hidro_cover(self, pool_id)-> None:
+        """Turn on hidro cover"""
+        pool_data = self.__get_pool_as_json(pool_id)
+        pool_data['pool']['hidro']['cover'] = 1
+        pool_data['changes'] = [{"kind": "E", "path": ["hidro", "cover"], "lhs": 0, "rhs": 1}]
+        await self.__send_command(pool_data)
+
+    async def turn_off_hidro_cover(self, pool_id)-> None:
+        """Turn off hidro cover"""
+        pool_data = self.__get_pool_as_json(pool_id)
+        pool_data['pool']['hidro']['cover'] = 0
+        pool_data['changes'] = [{"kind": "E", "path": ["hidro", "cover"], "lhs": 1, "rhs": 0}]
+        await self.__send_command(pool_data)
         
     async def set_pump_mode(self, pool_id, pumpMode)-> None:
         """Set pump mode"""
