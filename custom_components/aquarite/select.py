@@ -42,8 +42,8 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
 
     @property
     def pump_options(self) -> list[PumpSelectOption]:
-        allowed_values = list(['0', 'Manual', '1', 'Auto', '2', 'Heat', '3', 'Smart', '4', 'Intel'])
-        return allowed_values
+        allowed_values = ["0", "Manual", "1", "Auto", "2", "Heat", "3", "Smart", "4", "Intel"]
+        return list(map(PumpSelectOption(value["value"], value["name"], allowed_values)
         
     @property
     def options(self) -> list[str]:
