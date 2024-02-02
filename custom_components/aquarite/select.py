@@ -44,6 +44,10 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
     def pump_options(self) -> list[PumpSelectOption]:
         allowed_values = list(['0', 'Manual', '1', 'Auto', '2', 'Heat', '3', 'Smart', '4', 'Intel'])
         return allowed_values
+        
+    @property
+    def options(self) -> list[str]:
+        return list(map(lambda option: option.text, self.pump_options))
 
     def get_pump_state_by_value(self, value: int) -> PumpSelectOption:
         return next(option for option in self.pump_options if option.value == value)
