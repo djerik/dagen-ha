@@ -41,10 +41,15 @@ class AquariteDataCoordinator(DataUpdateCoordinator):
         """Turn off pool light."""
         await self.api.turn_off_light( self.data.id )
 
-    async def turn_on_relay(self, name)-> None:
+    async def turn_on_relay(self, relyName)-> None:
         """Turn on relay."""
-        await self.api.turn_on_relay( self.data.id, name )
+        await self.api.turn_on_relay( self.data.id, relyName )
 
     async def turn_off_relay(self, name)-> None:
         """Turn off relay."""
-        await self.api.turn_off_relay( self.data.id, name )
+        await self.api.turn_off_relay( self.data.id, relyName )
+
+    async def set_pump_mode(self, pool_id, pumpMode)-> None:
+        """Set pump mode"""
+         await self.api.set_pump_mode( self.data.id, pumpMode )
+
