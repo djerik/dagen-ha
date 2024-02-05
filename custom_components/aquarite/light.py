@@ -26,19 +26,18 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
-#    @property
-#    def device_info(self) -> DeviceInfo:
-#        """Return the device info."""
-#        return DeviceInfo(
-#            identifiers={
-#                (DOMAIN,self._unique_id)
-#            },
-#            name=self._attr_name,
-#            manufacturer="Hayward",
-#            model="Lights",
-#            sw_version="0.1",
-#            via_device=(DOMAIN, self._dataservice.pool_id),
-#        )
+    @property
+    def device_info(self) -> DeviceInfo:
+        """Return the device info."""
+        return DeviceInfo(
+            identifiers={
+                (DOMAIN,self._unique_id)
+            },
+            name=self._attr_name,
+            manufacturer="Hayward",
+            model="Aquarite",
+            sw_version="0.1",
+        )
 
     @property
     def is_on(self):
