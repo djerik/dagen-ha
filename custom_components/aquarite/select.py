@@ -27,6 +27,19 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
         self._allowed_values = ["Manual", "Auto", "Heat", "Smart", "Intel"]
+
+    @property
+    def device_info(self):
+        """Return the device info."""
+        return {
+            "identifiers": {
+                (DOMAIN, dataservice.get_value("id"))
+            },
+            "name": self._attr_name,
+            "manufacturer": "Hayward",
+            "model": "Aquarite",
+            "sw_version": "0.1",
+        }
        
     @property
     def options(self) -> list[str]:
