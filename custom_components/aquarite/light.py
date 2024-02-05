@@ -27,11 +27,11 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         self._unique_id = dataservice.get_value("id") + name
 
     @property
-    def device_info(self) -> DeviceInfo:
+    def device_info(self):
         """Return the device info."""
         return DeviceInfo(
             identifiers={
-                (DOMAIN,self._unique_id)
+                (DOMAIN,"Aquarite_Home")
             },
             name=self._attr_name,
             manufacturer="Hayward",
