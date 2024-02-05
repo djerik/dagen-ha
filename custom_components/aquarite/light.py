@@ -21,9 +21,10 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize a Aquarite Light Sensor Entity."""
         super().__init__(dataservice)
+        self.entity_description = "description of the switch"
         self._dataservice = dataservice
         """self._attr_name = api.get_pool(dataservice.get_value("id")) + "_" + name"""
-        self._attr_name = "Home_" + name
+        self._attr_name = "Home_" + name + dataservice.get_value("id")
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
