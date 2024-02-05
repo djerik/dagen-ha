@@ -93,7 +93,7 @@ class AquariteRelayEntity(CoordinatorEntity, SwitchEntity):
         return bool(self._dataservice.get_value(self._value_path))
         
     @property
-    def extra_state_attributes(self) -> dict[str, str] | None:
+    def extra_state_attributes(self, **kwargs) -> dict[str, str] | None:
         attributes = {}
         attributes['name'] = self._dataservice.get_value("relays." + name.lower() + ".name")
         return attributes
