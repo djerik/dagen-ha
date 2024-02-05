@@ -31,7 +31,7 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN,"Aquarite_Home")
+                (DOMAIN, dataservice.get_value("id"))
             },
             "name": self._attr_name,
             "manufacturer": "Hayward",
