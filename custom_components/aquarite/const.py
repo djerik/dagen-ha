@@ -1,6 +1,8 @@
 """Constants."""
 
 DOMAIN = "aquarite"
+BRAND = "Hayward"
+MODEL = "Aquarite"
 PATH_HASCD = "main.hasCD"
 PATH_HASCL = "main.hasCL"
 PATH_HASPH = "main.hasPH"
