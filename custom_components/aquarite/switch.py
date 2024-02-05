@@ -99,11 +99,11 @@ class AquariteRelayEntity(CoordinatorEntity, SwitchEntity):
         attributes['name'] = self._dataservice.get_value("relays." + self._relayName.lower() + ".name")
         return attributes
 
-    async def async_turn_on(self, **kwargs):
+    async def async_turn_on(self):
         """Turn the entity on."""
         await self._dataservice.turn_on_relay(self._relayName)
 
-    async def async_turn_off(self, **kwargs):
+    async def async_turn_off(self):
         """Turn the entity off."""
         await self._dataservice.turn_off_relay(self._relayName)
 
