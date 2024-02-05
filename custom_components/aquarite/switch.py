@@ -34,6 +34,19 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         self._unique_id = dataservice.get_value("id") + name
 
     @property
+    def device_info(self):
+        """Return the device info."""
+        return {
+            "identifiers": {
+                (DOMAIN, dataservice.get_value("id"))
+            },
+            "name": self._attr_name,
+            "manufacturer": "Hayward",
+            "model": "Aquarite",
+            "sw_version": "0.1",
+        }
+
+    @property
     def is_on(self):
         """Return true if the device is on."""
         return bool(self._dataservice.get_value(self._value_path))
