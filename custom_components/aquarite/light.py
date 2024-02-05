@@ -33,10 +33,10 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
             "identifiers": {
                 (DOMAIN,"Aquarite_Home")
             },
-            "name"=self._attr_name,
-            "manufacturer"="Hayward",
-            "model"="Aquarite",
-            "sw_version"="0.1",
+            "name": self._attr_name,
+            "manufacturer": "Hayward",
+            "model": "Aquarite",
+            "sw_version": "0.1",
         }
 
     @property
