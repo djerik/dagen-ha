@@ -6,6 +6,8 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
     DOMAIN,
+    BRAND,
+    MODEL,
     PATH_HASCD,
     PATH_HASCL,
     PATH_HASHIDRO,
@@ -119,8 +121,8 @@ class AquariteTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
                 (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": "Home",
-            "manufacturer": "Hayward",
-            "model": "Aquarite",
+            "manufacturer": BRAND,
+            "model": MODEL,
         }
 
     @property
@@ -160,8 +162,8 @@ class AquariteValueSensorEntity(CoordinatorEntity, SensorEntity):
                 (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": "Home",
-            "manufacturer": "Hayward",
-            "model": "Aquarite",
+            "manufacturer": BRAND,
+            "model": MODEL,
         }
 
     @property
@@ -196,8 +198,8 @@ class AquariteHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
                 (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": "Home",
-            "manufacturer": "Hayward",
-            "model": "Aquarite",
+            "manufacturer": BRAND,
+            "model": MODEL,
         }
 
     @property
@@ -232,8 +234,8 @@ class AquariteRxValueSensorEntity(CoordinatorEntity, SensorEntity):
                 (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": "Home",
-            "manufacturer": "Hayward",
-            "model": "Aquarite",
+            "manufacturer": BRAND,
+            "model": MODEL,
         }
     
     @property
