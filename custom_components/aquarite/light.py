@@ -4,6 +4,7 @@ from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, BRAND, MODEL
+from .aquarite import Aquarite, UnauthorizedException
 
 async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> bool:
     """Set up a config entry."""
@@ -22,8 +23,7 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         """Initialize a Aquarite Light Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
-        """self._attr_name = api.get_pool(dataservice.get_value("id")) + "_" + name"""
-        self._attr_name = "Home_" + name
+        self._attr_name = "Home_" + name + Aquarite.api.get_pool(dataservice.get_value("id"))
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
