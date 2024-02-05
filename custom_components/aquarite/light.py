@@ -3,7 +3,7 @@ from homeassistant.components.light import LightEntity
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN
+from .const import DOMAIN, BRAND, MODEL
 
 async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> bool:
     """Set up a config entry."""
@@ -35,8 +35,8 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
                 (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": "Home",
-            "manufacturer": "Hayward",
-            "model": "Aquarite",
+            "manufacturer": BRAND,
+            "model": MODEL,
         }
 
     @property
