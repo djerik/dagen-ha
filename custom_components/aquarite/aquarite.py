@@ -98,6 +98,7 @@ class Aquarite:
 
     def get_pool(self, pool_id)-> DocumentSnapshot:
         """Get pool by pool id."""
+        _LOGGER.debug(self.client.collection("pools").document(pool_id).get())
         return self.client.collection("pools").document(pool_id).get()
 
     def subscribe(self, pool_id, handler) -> None:
