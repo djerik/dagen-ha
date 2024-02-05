@@ -22,8 +22,7 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         """Initialize a Aquarite Light Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
-        """Home to update to pool name"""
-        self._attr_name = "Home" + name
+        self._attr_name = api.get_pool(dataservice.get_value("id")) + "_" + name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
