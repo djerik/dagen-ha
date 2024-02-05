@@ -101,11 +101,11 @@ class AquariteRelayEntity(CoordinatorEntity, SwitchEntity):
 
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""
-        await self._dataservice.turn_on_relay(name)
+        await self._dataservice.turn_on_relay(self._relayName)
 
     async def async_turn_off(self, **kwargs):
         """Turn the entity off."""
-        await self._dataservice.turn_off_relay(name)
+        await self._dataservice.turn_off_relay(self._relayName)
 
     @property
     def unique_id(self):
