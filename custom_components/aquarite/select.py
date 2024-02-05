@@ -29,7 +29,7 @@ class AquariteSelectEntity(CoordinatorEntity, SelectEntity):
         self._allowed_values = ["Manual", "Auto", "Heat", "Smart", "Intel"]
 
     @property
-    def device_info(self):
+    def device_info(self, dataservice):
         """Return the device info."""
         return {
             "identifiers": {
