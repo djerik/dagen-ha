@@ -112,6 +112,19 @@ class AquariteTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
         self._unique_id = dataservice.get_value("id") + "-" + name
 
     @property
+    def device_info(self):
+        """Return the device info."""
+        return {
+            "identifiers": {
+                (DOMAIN, dataservice.get_value("id"))
+            },
+            "name": self._attr_name,
+            "manufacturer": "Hayward",
+            "model": "Aquarite",
+            "sw_version": "0.1",
+        }
+
+    @property
     def native_value(self):
         """Return temperature."""
         return self._dataservice.get_value(self._value_path)
@@ -139,6 +152,19 @@ class AquariteValueSensorEntity(CoordinatorEntity, SensorEntity):
         self._attr_native_unit_of_measurement = native_unit_of_measurement
         self._attr_icon = icon
         self._unique_id = dataservice.get_value("id") + "-" + name
+
+    @property
+    def device_info(self):
+        """Return the device info."""
+        return {
+            "identifiers": {
+                (DOMAIN, dataservice.get_value("id"))
+            },
+            "name": self._attr_name,
+            "manufacturer": "Hayward",
+            "model": "Aquarite",
+            "sw_version": "0.1",
+        }
 
     @property
     def native_value(self):
