@@ -23,7 +23,7 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         super().__init__(dataservice)
         self._dataservice = dataservice
         """self._attr_name = api.get_pool(dataservice.get_value("id")) + "_" + name"""
-        self._attr_name = "Home_" + name + dataservice.get_value("id")
+        self._attr_name = "Home_" + name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
