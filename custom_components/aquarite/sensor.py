@@ -112,16 +112,15 @@ class AquariteTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
         self._unique_id = dataservice.get_value("id") + "-" + name
 
     @property
-    def device_info(self, dataservice):
+    def device_info(self):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, dataservice.get_value("id"))
+                (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": self._attr_name,
             "manufacturer": "Hayward",
             "model": "Aquarite",
-            "sw_version": "0.1",
         }
 
     @property
@@ -154,16 +153,15 @@ class AquariteValueSensorEntity(CoordinatorEntity, SensorEntity):
         self._unique_id = dataservice.get_value("id") + "-" + name
 
     @property
-    def device_info(self, dataservice):
+    def device_info(self):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, dataservice.get_value("id"))
+                (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": self._attr_name,
             "manufacturer": "Hayward",
             "model": "Aquarite",
-            "sw_version": "0.1",
         }
 
     @property
@@ -189,6 +187,18 @@ class AquariteHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
         self._attr_name = name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
+        
+    @property
+    def device_info(self):
+        """Return the device info."""
+        return {
+            "identifiers": {
+                (DOMAIN, self._dataservice.get_value("id"))
+            },
+            "name": self._attr_name,
+            "manufacturer": "Hayward",
+            "model": "Aquarite",
+        }
 
     @property
     def native_value(self) -> float:
@@ -215,16 +225,15 @@ class AquariteRxValueSensorEntity(CoordinatorEntity, SensorEntity):
         self._unique_id = dataservice.get_value("id") + "-" + name
 
     @property
-    def device_info(self, dataservice):
+    def device_info(self):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, dataservice.get_value("id"))
+                (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": self._attr_name,
             "manufacturer": "Hayward",
             "model": "Aquarite",
-            "sw_version": "0.1",
         }
     
     @property
