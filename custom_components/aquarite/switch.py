@@ -34,7 +34,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         self._unique_id = dataservice.get_value("id") + name
 
     @property
-    def device_info(self):
+    def device_info(self, dataservice):
         """Return the device info."""
         return {
             "identifiers": {
@@ -75,6 +75,19 @@ class AquariteRelayEntity(CoordinatorEntity, SwitchEntity):
         self._attr_name = name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
+
+    @property
+    def device_info(self, dataservice):
+        """Return the device info."""
+        return {
+            "identifiers": {
+                (DOMAIN, dataservice.get_value("id"))
+            },
+            "name": self._attr_name,
+            "manufacturer": "Hayward",
+            "model": "Aquarite",
+            "sw_version": "0.1",
+        }
 
     @property
     def is_on(self):
