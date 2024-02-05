@@ -6,7 +6,7 @@ from homeassistant.components.binary_sensor import (
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
-from .const import DOMAIN, PATH_HASCD, PATH_HASCL, PATH_HASPH, PATH_HASRX
+from .const import DOMAIN, BRAND, MODEL, PATH_HASCD, PATH_HASCL, PATH_HASPH, PATH_HASRX
 
 
 async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> bool:
@@ -53,8 +53,8 @@ class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
                 (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": "Home",
-            "manufacturer": "Hayward",
-            "model": "Aquarite",
+            "manufacturer": BRAND,
+            "model": MODEL,
         }
 
     @property
@@ -93,8 +93,8 @@ class AquariteBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
                 (DOMAIN, self._dataservice.get_value("id"))
             },
             "name": "Home",
-            "manufacturer": "Hayward",
-            "model": "Aquarite",
+            "manufacturer": BRAND,
+            "model": MODEL,
         }
 
     @property
