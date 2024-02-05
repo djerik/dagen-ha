@@ -29,7 +29,7 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
     @property
     def device_info(self):
         """Return the device info."""
-        return DeviceInfo(
+        return (
             identifiers={
                 (DOMAIN,"Aquarite_Home")
             },
