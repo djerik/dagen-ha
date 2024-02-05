@@ -27,7 +27,7 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         self._unique_id = dataservice.get_value("id") + name
 
     @property
-    def device_info(self):
+    def device_info(self, dataservice):
         """Return the device info."""
         return {
             "identifiers": {
