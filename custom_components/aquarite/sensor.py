@@ -109,7 +109,8 @@ class AquariteTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
         """Initialize Temperature Sensor."""
         super().__init__(dataservice)
         self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("poolName") + "_" + name
+        self._pool_id = dataservice.get_value("id") 
+        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
@@ -147,7 +148,8 @@ class AquariteValueSensorEntity(CoordinatorEntity, SensorEntity):
         """Initialize Value Sensor such as pH."""
         super().__init__(dataservice)
         self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("poolName") + "_" + name
+        self._pool_id = dataservice.get_value("id") 
+        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
         self._value_path = value_path
         self._attr_device_class = device_class
         self._attr_native_unit_of_measurement = native_unit_of_measurement
@@ -159,7 +161,7 @@ class AquariteValueSensorEntity(CoordinatorEntity, SensorEntity):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, self._dataservice.get_value("id"))
+                (DOMAIN, self._pool_id)
             },
             "name": dataservice.get_value("poolName"),
             "manufacturer": BRAND,
@@ -186,7 +188,8 @@ class AquariteHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
         """Initialize Hydrolyser Sensor."""
         super().__init__(dataservice)
         self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("poolName") + "_" + name
+        self._pool_id = dataservice.get_value("id") 
+        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
         
@@ -195,7 +198,7 @@ class AquariteHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, self._dataservice.get_value("id"))
+                (DOMAIN, self._pool_id)
             },
             "name": "Home",
             "manufacturer": BRAND,
@@ -222,7 +225,8 @@ class AquariteRxValueSensorEntity(CoordinatorEntity, SensorEntity):
         """Initialize Hydrolyser Sensor."""
         super().__init__(dataservice)
         self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("poolName") + "_" + name
+        self._pool_id = dataservice.get_value("id") 
+        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
@@ -231,7 +235,7 @@ class AquariteRxValueSensorEntity(CoordinatorEntity, SensorEntity):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, self._dataservice.get_value("id"))
+                (DOMAIN, self._pool_id)
             },
             "name": dataservice.get_value("poolName"),
             "manufacturer": BRAND,
