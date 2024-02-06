@@ -16,6 +16,8 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
     entities = []
 
     entities.append(AquariteBinarySensorEntity(hass, dataservice, "FL1", "hidro.fl1"))
+
+    """Filtration Status shall also be a switch to turn on pump on manual mode"""
     entities.append(AquariteBinarySensorEntity(hass, dataservice, "Filtration Status", "filtration.status"))    
     entities.append(AquariteBinarySensorEntity(hass, dataservice, "Backwash Status", "backwash.status"))
    
