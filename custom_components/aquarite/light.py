@@ -33,9 +33,9 @@ class AquariteLightEntity(CoordinatorEntity, LightEntity):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, self._dataservice.get_value("id"))
+                (DOMAIN, self._pool_id)
             },
-            "name": dataservice.get_value("poolName"),
+            "name": self._dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
