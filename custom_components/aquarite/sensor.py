@@ -110,7 +110,7 @@ class AquariteTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._pool_id = dataservice.get_value("id") 
-        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
+        self._attr_name = dataservice.get_pool_name(self._pool_id) + "_" +  name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
@@ -121,7 +121,7 @@ class AquariteTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
             "identifiers": {
                 (DOMAIN, self._dataservice.get_value("id"))
             },
-            "name": dataservice.get_value("poolName"),
+            "name": self._dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
@@ -149,7 +149,7 @@ class AquariteValueSensorEntity(CoordinatorEntity, SensorEntity):
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._pool_id = dataservice.get_value("id") 
-        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
+        self._attr_name = dataservice.get_pool_name(self._pool_id) + "_" +  name
         self._value_path = value_path
         self._attr_device_class = device_class
         self._attr_native_unit_of_measurement = native_unit_of_measurement
@@ -163,7 +163,7 @@ class AquariteValueSensorEntity(CoordinatorEntity, SensorEntity):
             "identifiers": {
                 (DOMAIN, self._pool_id)
             },
-            "name": dataservice.get_value("poolName"),
+            "name": self._dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
@@ -200,7 +200,7 @@ class AquariteHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
             "identifiers": {
                 (DOMAIN, self._pool_id)
             },
-            "name": "Home",
+            "name": self._dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
@@ -226,7 +226,7 @@ class AquariteRxValueSensorEntity(CoordinatorEntity, SensorEntity):
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._pool_id = dataservice.get_value("id") 
-        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
+        self._attr_name = dataservice.get_pool_name(self._pool_id) + "_" +  name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
@@ -237,7 +237,7 @@ class AquariteRxValueSensorEntity(CoordinatorEntity, SensorEntity):
             "identifiers": {
                 (DOMAIN, self._pool_id)
             },
-            "name": dataservice.get_value("poolName"),
+            "name": self._dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
