@@ -147,7 +147,7 @@ class Aquarite:
         pool_data = self.__get_pool_as_json(pool_id)
         pool_data['pool'].value_path = 1
         pool_data['changes'] = [{"kind": "E", "path": ["hidro", "cover_enabled"], "lhs": 1, "rhs": 0}]
-         _LOGGER.debug(pool_data)
+        _LOGGER.debug(pool_data)
         await self.__send_command(pool_data)
         
     async def set_pump_mode(self, pool_id, pumpMode)-> None:
