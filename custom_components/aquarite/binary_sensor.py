@@ -40,7 +40,7 @@ class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._pool_id = dataservice.get_value("id") 
-        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
+        self._attr_name = dataservice.get_pool_name(self._pool_id) + "_" +  name
         self._value_path = value_path
         self._unique_id = self._pool_id + "-" + name
 
@@ -82,7 +82,7 @@ class AquariteBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
         super().__init__(dataservice)
         self._dataservice = dataservice
         self._pool_id = dataservice.get_value("id") 
-        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
+        self._attr_name = dataservice.get_pool_name(self._pool_id) + "_" +  name
         self._unique_id = dataservice.get_value("id") + "-" + name
 
     @property
