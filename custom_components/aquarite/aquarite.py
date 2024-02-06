@@ -182,8 +182,7 @@ class Aquarite:
                          "relays" : pool.get("relays")
                         },
                 "poolId" : pool_id,
-                "source" : "web"
-               }
+                "source" : "web"}
         _LOGGER.debug(data)
         return data
 
