@@ -18,6 +18,9 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
     entities.append(AquariteRelayEntity(hass, dataservice, "Relay1", "relays.relay1.info.onoff"))
     entities.append(AquariteRelayEntity(hass, dataservice, "Relay2", "relays.relay2.info.onoff"))
     entities.append(AquariteRelayEntity(hass, dataservice, "Relay3", "relays.relay3.info.onoff"))
+
+    """enable to start the pump when in manual mode"""
+    """ entities.append(AquariteSwitchEntity(hass, dataservice, "Filtration Status", "filtration.status")) """
     
     async_add_entities(entities)
 
