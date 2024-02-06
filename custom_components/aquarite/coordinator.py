@@ -60,4 +60,7 @@ class AquariteDataCoordinator(DataUpdateCoordinator):
     async def set_pump_mode(self, pool_id, pumpMode)-> None:
         """Set pump mode"""
         await self.api.set_pump_mode( self.data.id, pumpMode )
-        
+
+    async def get_pool_name(self, pool_id)-> Any:
+        """Get Pool Name"""
+        await self.api.get_pool_name( pool_id )
