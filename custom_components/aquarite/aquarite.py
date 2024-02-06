@@ -165,6 +165,8 @@ class Aquarite:
 
     def __get_pool_as_json(self, pool_id):
         pool = self.get_pool(pool_id)
+        pooldict = self.client.collection("pools").document(pool_id).get().to_dict()
+        poolName = pooldict["form"]["name"]
         data = {"gateway" : pool.get("wifi"),
                 "operation" : "WRP",
                 "operationId" : None,
@@ -177,8 +179,8 @@ class Aquarite:
                         },
                 "poolId" : pool_id,
                 "source" : "web",
-                "poolName" : "Home"}
-        _LOGGER.debug(self.client.collection("pools").document(pool_id).get())
+                "poolName" : poolName}
+        _LOGGER.debug(poolName)
         _LOGGER.debug(data)
         return data
 
