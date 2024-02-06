@@ -49,9 +49,9 @@ class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, self._dataservice.get_value("id"))
+                (DOMAIN, self._pool_id)
             },
-            "name": dataservice.get_pool_name(self._pool_id),
+            "name": self._dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
@@ -80,6 +80,7 @@ class AquariteBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
     def __init__(self, hass : HomeAssistant, dataservice, name) -> None:
         """Initialize a Aquarite Binary Sensor Entity."""
         super().__init__(dataservice)
+        self._dataservice = dataservice
         self._pool_id = dataservice.get_value("id") 
         self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
         self._unique_id = dataservice.get_value("id") + "-" + name
@@ -89,9 +90,9 @@ class AquariteBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
         """Return the device info."""
         return {
             "identifiers": {
-                (DOMAIN, self._dataservice.get_value("id"))
+                (DOMAIN, self._pool_id)
             },
-            "name": dataservice.get_pool_name(self._pool_id),
+            "name": self._dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
