@@ -176,8 +176,9 @@ class Aquarite:
                          "relays" : pool.get("relays")
                         },
                 "poolId" : pool_id,
-                "source" : "web"}
-        _LOGGER.debug(pool)
+                "source" : "web",
+                "poolName" : "Home"}
+        _LOGGER.debug(self.client.collection("pools").document(pool_id).get())
         _LOGGER.debug(data)
         return data
 
