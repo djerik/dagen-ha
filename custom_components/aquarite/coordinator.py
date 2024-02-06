@@ -33,7 +33,7 @@ class AquariteDataCoordinator(DataUpdateCoordinator):
         """Return part from document."""
         return self.data.get(path)
 
-    def get_pool_name(self, pool_id)-> Str:
+    def get_pool_name(self, pool_id):
         """Get Pool Name"""
         return self.api.get_pool_name( pool_id )
 
