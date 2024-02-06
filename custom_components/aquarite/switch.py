@@ -33,9 +33,10 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         """ self._attr_device_info =  """
         self._dataservice = dataservice
         self._pool_id = dataservice.get_value("id") 
-        self._attr_name = dataservice.get_pool_name(self._pool_id) + "_" +  name
+        self._pool_name = dataservice.get_pool_name(self._pool_id)
+        self._attr_name = self._pool_name + "_" +  name
         self._value_path = value_path
-        self._unique_id = dataservice.get_value("id") + name
+        self._unique_id = self._pool_id + name
 
     @property
     def device_info(self):
@@ -44,7 +45,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
             "identifiers": {
                 (DOMAIN, self._pool_id)
             },
-            "name": self._dataservice.get_pool_name(self._pool_id),
+            "name": self._pool_name,
             "manufacturer": BRAND,
             "model": MODEL,
         }
@@ -56,16 +57,19 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""
-        await self._dataservice.turn_on_hidro_cover()
+        await self._dataservice.turn_on_switch(self.name, self._value_path)
 
     async def async_turn_off(self, **kwargs):
         """Turn the entity off."""
-        await self._dataservice.turn_off_hidro_cover()
+        await self._dataservice.turn_off_switch(self.name, self._value_path)
 
     @property
     def unique_id(self):
         """The unique id of the sensor."""
         return self._unique_id
+
+
+
 
 class AquariteRelayEntity(CoordinatorEntity, SwitchEntity):
     """Aquarite Relay Entity."""
