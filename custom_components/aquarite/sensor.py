@@ -222,7 +222,7 @@ class AquariteRxValueSensorEntity(CoordinatorEntity, SensorEntity):
         """Initialize Hydrolyser Sensor."""
         super().__init__(dataservice)
         self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("id")[-4:] + "_" + ame
+        self._attr_name = dataservice.get_value("id")[-4:] + "_" + name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
