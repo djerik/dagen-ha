@@ -155,7 +155,7 @@ class Aquarite:
         pool_data['changes'] = [{"kind": "E", "path": ["filtration", "mode"], "lhs": 0, "rhs": pumpMode}]
         await self.__send_command(pool_data)
 
-    async def set_pump_mode(self, pool_id, pumpSpeed)-> None:
+    async def set_pump_speed(self, pool_id, pumpSpeed)-> None:
         """Set pump speed"""
         pool_data = self.__get_pool_as_json(pool_id)
         pool_data['pool']['filtration']['manVel'] = pumpSpeed
