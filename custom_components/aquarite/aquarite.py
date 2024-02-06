@@ -154,7 +154,7 @@ class Aquarite:
         pool_data['pool']['filtration']['mode'] = pumpMode     
         pool_data['changes'] = [{"kind": "E", "path": ["filtration", "mode"], "lhs": 0, "rhs": pumpMode}]
         await self.__send_command(pool_data)
-    
+          
     async def __send_command(self, data)-> None:
         headers = {"Authorization": "Bearer "+self.tokens["idToken"]}
         await self.aiohttp_session.post(
@@ -162,11 +162,15 @@ class Aquarite:
                 json = data,
                 headers=headers
                 )
-
-    def __get_pool_as_json(self, pool_id):
-        pool = self.get_pool(pool_id)
+        
+    def get_pool_name(self, pool_id):
         pooldict = self.client.collection("pools").document(pool_id).get().to_dict()
         poolName = pooldict["form"]["name"]
+        _LOGGER.debug(poolName)
+        return poolName
+    
+    def __get_pool_as_json(self, pool_id):
+        pool = self.get_pool(pool_id)        
         data = {"gateway" : pool.get("wifi"),
                 "operation" : "WRP",
                 "operationId" : None,
@@ -178,12 +182,10 @@ class Aquarite:
                          "relays" : pool.get("relays")
                         },
                 "poolId" : pool_id,
-                "source" : "web",
-                "poolName" : poolName}
-        _LOGGER.debug(poolName)
+                "source" : "web"
+               }
         _LOGGER.debug(data)
         return data
-
 
     def __on_snapshot(self, doc_snapshot, changes, read_time) -> None:
         """Create a callback on_snapshot function to capture changes."""
