@@ -29,7 +29,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
         super().__init__(dataservice)
         """ self._attr_device_info =  """
         self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("id")[-4:] + "_" + name
+        self._attr_name = dataservice.get_value("poolName") + "_" + name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
@@ -40,7 +40,7 @@ class AquariteSwitchEntity(CoordinatorEntity, SwitchEntity):
             "identifiers": {
                 (DOMAIN, self._dataservice.get_value("id"))
             },
-            "name": "Home",
+            "name": dataservice.get_value("poolName"),
             "manufacturer": BRAND,
             "model": MODEL,
         }
@@ -71,7 +71,7 @@ class AquariteRelayEntity(CoordinatorEntity, SwitchEntity):
         super().__init__(dataservice)
         """ self._attr_device_info =  """
         self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("id")[-4:] + "_" + name
+        self._attr_name = dataservice.get_value("poolName") + "_" + name
         self._relayName = name
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
@@ -83,7 +83,7 @@ class AquariteRelayEntity(CoordinatorEntity, SwitchEntity):
             "identifiers": {
                 (DOMAIN, self._dataservice.get_value("id"))
             },
-            "name": "Home",
+            "name": dataservice.get_value("poolName"),
             "manufacturer": BRAND,
             "model": MODEL,
         }
