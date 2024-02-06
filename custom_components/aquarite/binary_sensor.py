@@ -39,9 +39,10 @@ class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
         """Initialize a Aquarite Binary Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("poolName")+ "_" +  name
+        self._pool_id = dataservice.get_value("id") 
+        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
         self._value_path = value_path
-        self._unique_id = dataservice.get_value("id") + "-" + name
+        self._unique_id = self._pool_id + "-" + name
 
     @property
     def device_info(self):
@@ -50,7 +51,7 @@ class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
             "identifiers": {
                 (DOMAIN, self._dataservice.get_value("id"))
             },
-            "name": dataservice.get_value("poolName"),
+            "name": dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
@@ -79,8 +80,8 @@ class AquariteBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
     def __init__(self, hass : HomeAssistant, dataservice, name) -> None:
         """Initialize a Aquarite Binary Sensor Entity."""
         super().__init__(dataservice)
-        self._dataservice = dataservice
-        self._attr_name = dataservice.get_value("poolName")+ "_" +  name
+        self._pool_id = dataservice.get_value("id") 
+        self._attr_name = dataservice.get_pool_name(self._pool_id)+ "_" +  name
         self._unique_id = dataservice.get_value("id") + "-" + name
 
     @property
@@ -90,7 +91,7 @@ class AquariteBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
             "identifiers": {
                 (DOMAIN, self._dataservice.get_value("id"))
             },
-            "name": dataservice.get_value("poolName"),
+            "name": dataservice.get_pool_name(self._pool_id),
             "manufacturer": BRAND,
             "model": MODEL,
         }
