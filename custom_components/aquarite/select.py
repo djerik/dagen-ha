@@ -92,11 +92,11 @@ class AquaritePumpSpeedEntity(CoordinatorEntity, SelectEntity):
 
     @property
     def current_option(self) -> str:
-        """Return current pump mode"""      
+        """Return current pump speed"""      
         return self._allowed_values[self._dataservice.get_value(self._value_path)]
 
     async def async_select_option(self, option: str):
-       """Set pump mode"""
+       """Set pump speed"""
        await self._dataservice.set_pump_speed(self._attr_name, self._allowed_values.index(option))
 
     @property
