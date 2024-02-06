@@ -16,9 +16,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
     entities = []
 
     entities.append(AquariteBinarySensorEntity(hass, dataservice, "FL1", "hidro.fl1"))
-
-    entities.append(AquariteBinarySensorEntity(hass, dataservice, "Filtration Status", "filtration.status"))
-    
+    entities.append(AquariteBinarySensorEntity(hass, dataservice, "Filtration Status", "filtration.status"))    
     entities.append(AquariteBinarySensorEntity(hass, dataservice, "Backwash Status", "backwash.status"))
    
     if dataservice.get_value( "main.hasCL"):
@@ -65,10 +63,10 @@ class AquariteBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
     @property
     def device_class(self):
         """Return the class of the binary sensor."""
-        if self._value_path == "backwash.status":
-           return BinarySensorDeviceClass.RUNNING
+        if self._value_path == "FL1":
+           return BinarySensorDeviceClass.PROBLEM
             
-        return BinarySensorDeviceClass.PROBLEM
+        return BinarySensorDeviceClass.RUNNING
     
     @property
     def unique_id(self):
