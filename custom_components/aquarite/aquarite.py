@@ -163,7 +163,7 @@ class Aquarite:
                 headers=headers
                 )
         
-    def get_pool_name(self, pool_id):
+    def __get_pool_name(self, pool_id):
         pooldict = self.client.collection("pools").document(pool_id).get().to_dict()
         poolName = pooldict["form"]["name"]
         _LOGGER.debug(poolName)
