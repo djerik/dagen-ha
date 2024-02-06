@@ -137,14 +137,14 @@ class Aquarite:
     async def turn_on_switch(self, pool_id, name, value_path)-> None:
         """Turn on hidro cover"""
         pool_data = self.__get_pool_as_json(pool_id)
-        pool_data['pool']['hidro']['cover_enabled'] = 1
-        pool_data['changes'] = [{"kind": "E", "path": ["hidro", "cover_enabled"], "lhs": 0, "rhs": 1}]
+        pool_data['pool'].value_path = 1
+        pool_data['changes'] = [{"kind": "E", "path": ["hidro", "cover_enabled"], "lhs": 0, "rhs": 1}]    
         await self.__send_command(pool_data)
 
     async def turn_off_switch(self, pool_id, name, value_path)-> None:
         """Turn off hidro cover"""
         pool_data = self.__get_pool_as_json(pool_id)
-        pool_data['pool']['hidro']['cover_enabled'] = 0
+        pool_data['pool'].value_path = 1
         pool_data['changes'] = [{"kind": "E", "path": ["hidro", "cover_enabled"], "lhs": 1, "rhs": 0}]
         await self.__send_command(pool_data)
         
