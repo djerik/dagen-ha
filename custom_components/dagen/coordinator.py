@@ -40,3 +40,11 @@ class DagenDataCoordinator(DataUpdateCoordinator):
     async def turn_off_light(self)-> None:
         """Turn off pool light."""
         await self.api.turn_off_light( self.data.id )
+
+    async def turn_on_switch(self)-> None:
+        """Turn on pool filter pump."""
+        await self.api.turn_on_filter( self.data.id )
+
+    async def turn_off_switch(self)-> None:
+        """Turn off pool filter pump."""
+        await self.api.turn_off_filter( self.data.id )
