@@ -1,12 +1,12 @@
 {
+  "domain": "dagen",
+  "name": "Da-gen",
   "codeowners": ["@djerik"],
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/djerik/dagen-ha",
-  "issue_tracker": "https://github.com/djerik/dagen-ha/issues",
-  "domain": "dagen",
-  "name": "Da-gen",
-  "requirements": ["google-auth","google-cloud-firestore"],
-  "version": "1.0.0",
   "iot_class": "cloud_push"
+  "issue_tracker": "https://github.com/djerik/dagen-ha/issues",
+  "requirements": ["google-auth","google-cloud-firestore"],
+  "version": "1.0.0"
 }
