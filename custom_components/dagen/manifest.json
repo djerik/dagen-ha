@@ -6,7 +6,6 @@
   "issue_tracker": "https://github.com/djerik/dagen-ha/issues",
   "domain": "dagen",
   "name": "Da-gen",
-  "todorequirements": ["Dagen==1.0.0"],
   "requirements": ["google-auth","google-cloud-firestore"],
   "version": "1.0.0",
   "iot_class": "cloud_push"
