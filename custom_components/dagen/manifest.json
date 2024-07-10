@@ -5,7 +5,7 @@
   "config_flow": true,
   "dependencies": [],
   "documentation": "https://github.com/djerik/dagen-ha",
-  "iot_class": "cloud_push"
+  "iot_class": "cloud_push",
   "issue_tracker": "https://github.com/djerik/dagen-ha/issues",
   "requirements": ["google-auth","google-cloud-firestore"],
   "version": "1.0.0"
