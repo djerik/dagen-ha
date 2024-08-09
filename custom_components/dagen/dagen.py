@@ -116,7 +116,21 @@ class Dagen:
         pool_data['pool']['light']['status'] = 0
         pool_data['changes'] = [{"kind": "E", "path": ["light", "status"], "lhs": 1, "rhs": 0}]
         await self.__send_command(pool_data)
+        
+    async def turn_on_filter(self, pool_id)-> None:
+        """Turn on filter pump."""
+        pool_data = self.__get_pool_as_json(pool_id)
+        pool_data['pool']['filtration']['status'] = 1
+        pool_data['changes'] = [{"kind": "E", "path": ["filtration", "status"], "lhs": 0, "rhs": 1}]
+        await self.__send_command(pool_data)
 
+    async def turn_off_filter(self, pool_id)-> None:
+        """Turn off filter pump."""
+        pool_data = self.__get_pool_as_json(pool_id)
+        pool_data['pool']['filtration']['status'] = 0
+        pool_data['changes'] = [{"kind": "E", "path": ["filtration", "status"], "lhs": 1, "rhs": 0}]
+        await self.__send_command(pool_data)
+    
     async def __send_command(self, data)-> None:
         headers = {"Authorization": "Bearer "+self.tokens["idToken"]}
         await self.aiohttp_session.post(
