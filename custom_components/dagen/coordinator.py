@@ -3,6 +3,7 @@ import asyncio
 import logging
 from typing import Any
 
+from config.custom_components.dagen.dagen import Dagen
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
@@ -11,7 +12,7 @@ _LOGGER = logging.getLogger(__name__)
 class DagenDataCoordinator(DataUpdateCoordinator):
     """Dagen custom coordinator."""
 
-    def __init__(self, hass : HomeAssistant, api) -> None:
+    def __init__(self, hass : HomeAssistant, api : Dagen, pool_id) -> None:
         """Initialize my coordinator."""
         super().__init__(
             hass,
@@ -20,6 +21,7 @@ class DagenDataCoordinator(DataUpdateCoordinator):
             name="Dagen",
         )
         self.api = api
+        self.pool_id = pool_id
 
     async def async_updated_data(self, data) -> None:
         """Update data."""
@@ -28,6 +30,10 @@ class DagenDataCoordinator(DataUpdateCoordinator):
     def set_updated_data(self, data) -> None:
         """Receive Data."""
         asyncio.run_coroutine_threadsafe( self.async_updated_data(data), self.hass.loop ).result()
+
+    async def _async_update_data(self):
+        """Return data - especially for first refresh."""
+        return self.api.get_pool(self.pool_id)
 
     def get_value(self, path)-> Any:
         """Return part from document."""

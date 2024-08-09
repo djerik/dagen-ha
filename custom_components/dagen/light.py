@@ -1,6 +1,6 @@
 """Dagen light entity."""
-from homeassistant.components.light import LightEntity
-from homeassistant.core import HomeAssistant
+from homeassistant.components.light import ColorMode, LightEntity
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
@@ -18,6 +18,10 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 class DagenLightEntity(CoordinatorEntity, LightEntity):
     """Dagen Light Sensor Entity."""
 
+
+    _attr_supported_color_modes = {ColorMode.ONOFF}
+    _attr_color_mode = ColorMode.ONOFF
+
     def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize a Dagen Light Sensor Entity."""
         super().__init__(dataservice)
@@ -26,10 +30,11 @@ class DagenLightEntity(CoordinatorEntity, LightEntity):
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + name
 
-    @property
-    def is_on(self):
-        """Return true if the device is on."""
-        return bool(self._dataservice.get_value(self._value_path))
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self._attr_is_on = bool(self._dataservice.get_value(self._value_path))
+        self.async_write_ha_state()
 
     async def async_turn_on(self, **kwargs):
         """Turn the entity on."""

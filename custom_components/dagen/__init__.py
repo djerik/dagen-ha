@@ -17,16 +17,16 @@ async def async_setup_entry(
 ) -> bool:
     """Set up the Dagen component."""
     api : Dagen = await Dagen.create( async_get_clientsession(hass), entry.data[CONF_USERNAME], entry.data[CONF_PASSWORD])
-    coordinator = DagenDataCoordinator(hass, api)
+    coordinator = DagenDataCoordinator(hass, api, entry.data["pool_id"])
 
-    coordinator.data = await hass.async_add_executor_job(api.get_pool,entry.data["pool_id"])
-
+    await coordinator.async_config_entry_first_refresh()
     hass.async_add_executor_job( api.subscribe, entry.data["pool_id"], coordinator.set_updated_data)
 
     hass.data.setdefault(DOMAIN, {})
     hass.data[DOMAIN][entry.entry_id] = coordinator
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    await coordinator.async_config_entry_first_refresh()
 
     return True
 

@@ -1,7 +1,7 @@
 """Dagen value sensors."""
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
-from homeassistant.const import PERCENTAGE, UnitOfElectricPotential, UnitOfTemperature
-from homeassistant.core import HomeAssistant
+from homeassistant.const import PERCENTAGE, UnitOfElectricPotential, UnitOfTemperature, CONCENTRATION_PARTS_PER_MILLION
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import (
@@ -47,8 +47,8 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
                 dataservice,
                 "Cl",
                 "modules.cl.current",
-                None,
-                None,
+                SensorDeviceClass.VOLATILE_ORGANIC_COMPOUNDS_PARTS,
+                CONCENTRATION_PARTS_PER_MILLION,
                 "mdi:gauge"
             ),
         )
@@ -111,10 +111,11 @@ class DagenTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
-    @property
-    def native_value(self):
-        """Return temperature."""
-        return self._dataservice.get_value(self._value_path)
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self._attr_native_value = float(self._dataservice.get_value(self._value_path))
+        self.async_write_ha_state()
 
     @property
     def unit_of_measurement(self) -> str:
@@ -140,10 +141,11 @@ class DagenValueSensorEntity(CoordinatorEntity, SensorEntity):
         self._attr_icon = icon
         self._unique_id = dataservice.get_value("id") + "-" + name
 
-    @property
-    def native_value(self):
-        """Return value of sensor."""
-        return float(self._dataservice.get_value(self._value_path)) / 100
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self._attr_native_value = float(self._dataservice.get_value(self._value_path)) / 100
+        self.async_write_ha_state()
 
     @property
     def unique_id(self):
@@ -164,10 +166,11 @@ class DagenHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
-    @property
-    def native_value(self) -> float:
-        """Return value of sensor."""
-        return float(self._dataservice.get_value(self._value_path)) / 10
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self._attr_native_value = float(self._dataservice.get_value(self._value_path)) / 10
+        self.async_write_ha_state()
 
     @property
     def unique_id(self):
@@ -188,10 +191,11 @@ class DagenRxValueSensorEntity(CoordinatorEntity, SensorEntity):
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
-    @property
-    def native_value(self) -> int:
-        """Return value of sensor."""
-        return int(self._dataservice.get_value(self._value_path))
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self._attr_native_value = int(self._dataservice.get_value(self._value_path))
+        self.async_write_ha_state()
 
     @property
     def unique_id(self):

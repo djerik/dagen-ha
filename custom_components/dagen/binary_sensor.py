@@ -3,7 +3,7 @@ from homeassistant.components.binary_sensor import (
     BinarySensorDeviceClass,
     BinarySensorEntity,
 )
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN, PATH_HASCD, PATH_HASCL, PATH_HASPH, PATH_HASRX
@@ -41,10 +41,11 @@ class DagenBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
         self._value_path = value_path
         self._unique_id = dataservice.get_value("id") + "-" + name
 
-    @property
-    def is_on(self):
-        """Return true if the device is on."""
-        return bool(self._dataservice.get_value(self._value_path))
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
+        self._attr_is_on = bool(self._dataservice.get_value(self._value_path))
+        self.async_write_ha_state()
 
     @property
     def device_class(self):
@@ -66,16 +67,18 @@ class DagenBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
         self._attr_name = name
         self._unique_id = dataservice.get_value("id") + "-" + name
 
-    @property
-    def is_on(self):
-        """Return false if the tank is empty."""
+    @callback
+    def _handle_coordinator_update(self) -> None:
+        """Handle updated data from the coordinator."""
         if( self._dataservice.get_value("modules.ph.tank") or \
             self._dataservice.get_value("modules.rx.tank") or \
             self._dataservice.get_value("modules.cl.tank") or \
             self._dataservice.get_value("modules.cd.tank")
         ):
-            return True
-        return False
+            self._attr_is_on = True
+        else:
+            self._attr_is_on = False
+        self.async_write_ha_state()
 
     @property
     def device_class(self):
