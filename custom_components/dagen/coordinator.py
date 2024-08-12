@@ -12,7 +12,7 @@ _LOGGER = logging.getLogger(__name__)
 class DagenDataCoordinator(DataUpdateCoordinator):
     """Dagen custom coordinator."""
 
-    def __init__(self, hass : HomeAssistant, api : Dagen, pool_id) -> None:
+    def __init__(self, hass : HomeAssistant, api, pool_id) -> None:
         """Initialize my coordinator."""
         super().__init__(
             hass,
