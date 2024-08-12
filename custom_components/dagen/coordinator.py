@@ -3,7 +3,6 @@ import asyncio
 import logging
 from typing import Any
 
-from config.custom_components.dagen.dagen import Dagen
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator
 
