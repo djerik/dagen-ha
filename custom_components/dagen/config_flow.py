@@ -50,7 +50,7 @@ class DagenConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         self.data['pools'] = await api.get_pools()
 
-        POOL_SCHEMA = vol.Schema({vol.Optional("pool_id"): vol.In(self.data['pools'])})
+        POOL_SCHEMA = vol.Schema({vol.Required("pool_id"): vol.In(self.data['pools'])})
 
         return self.async_show_form(
             step_id="pool", data_schema=POOL_SCHEMA, errors=errors

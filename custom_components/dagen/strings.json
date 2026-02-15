@@ -13,11 +13,11 @@
         "title": "[%key:common::config_flow::title::reauth%]",
         "description": "The Dagen integration needs to re-authenticate your account"
       },
-      "location": {
+      "pool": {
         "data": {
-          "CONF_LOCATION_ID": "Pools:"
+          "pool_id": "Pool"
         },
-        "description": "Please choose the pool for this HA",
+        "description": "Please choose the pool to add",
         "title": "Setup Pool"
       }
     },

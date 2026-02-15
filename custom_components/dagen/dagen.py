@@ -1,8 +1,10 @@
 """Module for handling Dagen API."""
+
 import datetime
 from http import HTTPStatus
 import json
 from typing import Any
+from urllib.parse import urlparse
 
 import aiohttp
 from aiohttp import ClientResponseError
@@ -20,11 +22,15 @@ __license__ = "MIT"
 API_KEY = "AIzaSyBLaxiyZ2nS1KgRBqWe-NY4EG7OzG5fKpE"
 GOOGLE_IDENTITY_REST_API = "https://identitytoolkit.googleapis.com/v1/accounts"
 HAYWARD_REST_API = "https://europe-west1-hayward-europe.cloudfunctions.net/"
+API_REFERRER = "https://hayward-europe.web.app/"
+
 
 class Dagen:
     """Dagen API."""
 
-    def __init__(self, aiohttp_session: aiohttp.ClientSession, username : str, password : str)-> None:
+    def __init__(
+        self, aiohttp_session: aiohttp.ClientSession, username: str, password: str
+    ) -> None:
         """Init Dagen API."""
         self.aiohttp_session: aiohttp.ClientSession = aiohttp_session
         self.username = username
@@ -36,21 +42,32 @@ class Dagen:
         self.handlers = []
 
     @classmethod
-    async def create(cls, aiohttp_session: aiohttp.ClientSession, username : str, password : str):
+    async def create(
+        cls, aiohttp_session: aiohttp.ClientSession, username: str, password: str
+    ):
         """Initiate Dagen async."""
         instance = cls(aiohttp_session, username, password)
         await instance.signin()
-        instance.credentials = Credentials(token=instance.tokens["idToken"], expiry=instance.expiry, refresh_handler=instance.get_token_and_expiry )
-        instance.client = Client(project="hayward-europe", credentials=instance.credentials)
+        instance.credentials = Credentials(
+            token=instance.tokens["idToken"],
+            expiry=instance.expiry,
+            refresh_handler=instance.get_token_and_expiry,
+        )
+        instance.client = Client(
+            project="hayward-europe", credentials=instance.credentials
+        )
         return instance
-
 
     def get_token_and_expiry(self, request, scopes) -> Any:
         """Return the token as json."""
         request_url = f"{GOOGLE_IDENTITY_REST_API}:signInWithPassword?key={API_KEY}"
         headers = {"content-type": "application/json; charset=UTF-8"}
         data = json.dumps(
-            {"email": self.username, "password": self.password, "returnSecureToken": True}
+            {
+                "email": self.username,
+                "password": self.password,
+                "returnSecureToken": True,
+            }
         )
 
         req = requests.post(request_url, headers=headers, data=data, timeout=60)
@@ -61,31 +78,59 @@ class Dagen:
             raise UnauthorizedException(e, req.text) from e
 
         self.tokens = req.json()
-        self.expiry = datetime.datetime.now() + datetime.timedelta(seconds=int(self.tokens["expiresIn"]))
+        self.expiry = datetime.datetime.now() + datetime.timedelta(
+            seconds=int(self.tokens["expiresIn"])
+        )
 
         return self.tokens["idToken"], self.expiry
 
     async def signin(self):
         """Signin."""
         try:
+            url = f"{GOOGLE_IDENTITY_REST_API}:signInWithPassword?key={API_KEY}"
+            headers = self._build_headers("application/json; charset=UTF-8")
+            data = {
+                "email": self.username,
+                "password": self.password,
+                "returnSecureToken": True,
+            }
             resp: ClientResponse = await self.aiohttp_session.post(
-                f"{GOOGLE_IDENTITY_REST_API}:signInWithPassword?key={API_KEY}",
-                json ={"email": self.username, "password": self.password, "returnSecureToken": True}
+                url=url, headers=headers, json=data
             )
-            if resp.status == 400:
+            if resp.status != 200:
                 raise UnauthorizedException(resp.reason)
             self.tokens = await resp.json()
-            self.expiry = datetime.datetime.now() + datetime.timedelta(seconds=int(self.tokens["expiresIn"]))
+            self.expiry = datetime.datetime.now() + datetime.timedelta(
+                seconds=int(self.tokens["expiresIn"])
+            )
         except ClientResponseError as err:
             if err.status == HTTPStatus.UNAUTHORIZED:
                 raise UnauthorizedException(err) from err
 
+    def _build_headers(self, content_type: str) -> dict[str, str]:
+        headers = {"Content-Type": content_type}
+        if API_REFERRER:
+            headers["Referer"] = API_REFERRER
+            origin = self._derive_origin(API_REFERRER)
+            if origin:
+                headers["Origin"] = origin
+        return headers
+
+    @staticmethod
+    def _derive_origin(referrer: str) -> str | None:
+        parsed = urlparse(referrer)
+        if parsed.scheme and parsed.netloc:
+            return f"{parsed.scheme}://{parsed.netloc}"
+        return referrer or None
 
     async def get_pools(self):
         """Get all pools for current user."""
         data = {}
         user_dict = (
-            self.client.collection("users").document(self.tokens["localId"]).get().to_dict()
+            self.client.collection("users")
+            .document(self.tokens["localId"])
+            .get()
+            .to_dict()
         )
         for poolId in user_dict["pools"]:
             pooldict = self.client.collection("pools").document(poolId).get().to_dict()
@@ -93,7 +138,7 @@ class Dagen:
                 data[poolId] = pooldict["form"]["name"]
         return data
 
-    def get_pool(self, pool_id)-> DocumentSnapshot:
+    def get_pool(self, pool_id) -> DocumentSnapshot:
         """Get pool by pool id."""
         return self.client.collection("pools").document(pool_id).get()
 
@@ -103,50 +148,55 @@ class Dagen:
         doc_ref.on_snapshot(self.__on_snapshot)
         self.handlers.append(handler)
 
-    async def turn_on_light(self, pool_id)-> None:
+    async def turn_on_light(self, pool_id) -> None:
         """Turn on light."""
         pool_data = self.__get_pool_as_json(pool_id)
-        pool_data['pool']['light']['status'] = 1
-        pool_data['changes'] = [{"kind": "E", "path": ["light", "status"], "lhs": 0, "rhs": 1}]
+        pool_data["pool"]["light"]["status"] = 1
+        pool_data["changes"] = [
+            {"kind": "E", "path": ["light", "status"], "lhs": 0, "rhs": 1}
+        ]
         await self.__send_command(pool_data)
 
-    async def turn_off_light(self, pool_id)-> None:
+    async def turn_off_light(self, pool_id) -> None:
         """Turn off light."""
         pool_data = self.__get_pool_as_json(pool_id)
-        pool_data['pool']['light']['status'] = 0
-        pool_data['changes'] = [{"kind": "E", "path": ["light", "status"], "lhs": 1, "rhs": 0}]
+        pool_data["pool"]["light"]["status"] = 0
+        pool_data["changes"] = [
+            {"kind": "E", "path": ["light", "status"], "lhs": 1, "rhs": 0}
+        ]
         await self.__send_command(pool_data)
 
-    async def __send_command(self, data)-> None:
-        headers = {"Authorization": "Bearer "+self.tokens["idToken"]}
+    async def __send_command(self, data) -> None:
+        headers = {"Authorization": "Bearer " + self.tokens["idToken"]}
         await self.aiohttp_session.post(
-                f"{HAYWARD_REST_API}/sendCommand",
-                json = data,
-                headers=headers
-                )
+            f"{HAYWARD_REST_API}/sendCommand", json=data, headers=headers
+        )
 
     def __get_pool_as_json(self, pool_id):
         pool = self.get_pool(pool_id)
-        data = {"gateway" : pool.get("wifi"),
-                "operation" : "WRP",
-                "operationId" : None,
-                "pool": {"backwash": pool.get("backwash"),
-                         "filtration": pool.get("filtration"),
-                         "hidro" : pool.get("hidro"),
-                         "light" : pool.get("light"),
-                         "main" : pool.get("main"),
-                         "relays" : pool.get("relays")
-                        },
-                "poolId" : pool_id,
-                "source" : "web"}
+        data = {
+            "gateway": pool.get("wifi"),
+            "operation": "WRP",
+            "operationId": None,
+            "pool": {
+                "backwash": pool.get("backwash"),
+                "filtration": pool.get("filtration"),
+                "hidro": pool.get("hidro"),
+                "light": pool.get("light"),
+                "main": pool.get("main"),
+                "relays": pool.get("relays"),
+            },
+            "poolId": pool_id,
+            "source": "web",
+        }
         return data
-
 
     def __on_snapshot(self, doc_snapshot, changes, read_time) -> None:
         """Create a callback on_snapshot function to capture changes."""
         for doc in doc_snapshot:
             for handler in self.handlers:
                 handler(doc)
+
 
 class UnauthorizedException(Exception):
     """Unauthorized user exception."""
