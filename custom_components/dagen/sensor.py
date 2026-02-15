@@ -30,6 +30,15 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
         ),
     )
 
+    entities.append(
+        DagenTemperatureSensorEntity(
+            hass,
+            dataservice,
+            "Temperature Target",
+            "filtration.heating.temp",
+        ),
+    )
+
     if dataservice.get_value( PATH_HASCD ):
         entities.append(
             DagenValueSensorEntity(
@@ -64,6 +73,26 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
                 None
             ),
         )
+        entities.append(
+            DagenValueSensorEntity(
+                hass,
+                dataservice,
+                "pH Target Low",
+                "modules.ph.status.low_value",
+                SensorDeviceClass.PH,
+                None
+            ),
+        )
+        entities.append(
+            DagenValueSensorEntity(
+                hass,
+                dataservice,
+                "pH Target High",
+                "modules.ph.status.high_value",
+                SensorDeviceClass.PH,
+                None
+            ),
+        )
 
     if dataservice.get_value( PATH_HASRX ):
         entities.append(
@@ -72,6 +101,14 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
                 dataservice,
                 "Rx",
                 "modules.rx.current",
+            ),
+        )
+        entities.append(
+            DagenRxValueSensorEntity(
+                hass,
+                dataservice,
+                "Rx Target",
+                "modules.rx.status.value",
             ),
         )
 
