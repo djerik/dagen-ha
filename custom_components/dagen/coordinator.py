@@ -1,5 +1,4 @@
 """Coordinator for Dagen."""
-import asyncio
 import logging
 from typing import Any
 
@@ -11,7 +10,7 @@ _LOGGER = logging.getLogger(__name__)
 class DagenDataCoordinator(DataUpdateCoordinator):
     """Dagen custom coordinator."""
 
-    def __init__(self, hass : HomeAssistant, api, pool_id) -> None:
+    def __init__(self, hass: HomeAssistant, api, pool_id) -> None:
         """Initialize my coordinator."""
         super().__init__(
             hass,
@@ -22,26 +21,22 @@ class DagenDataCoordinator(DataUpdateCoordinator):
         self.api = api
         self.pool_id = pool_id
 
-    async def async_updated_data(self, data) -> None:
-        """Update data."""
-        super().async_set_updated_data(data)
-
     def set_updated_data(self, data) -> None:
-        """Receive Data."""
-        asyncio.run_coroutine_threadsafe( self.async_updated_data(data), self.hass.loop ).result()
+        """Receive data from snapshot listener (called from a thread)."""
+        self.hass.loop.call_soon_threadsafe(self.async_set_updated_data, data)
 
     async def _async_update_data(self):
         """Return data - especially for first refresh."""
-        return self.api.get_pool(self.pool_id)
+        return await self.hass.async_add_executor_job(self.api.get_pool, self.pool_id)
 
-    def get_value(self, path)-> Any:
+    def get_value(self, path) -> Any:
         """Return part from document."""
         return self.data.get(path)
 
-    async def turn_on_light(self)-> None:
+    async def turn_on_light(self) -> None:
         """Turn on pool light."""
-        await self.api.turn_on_light( self.data.id )
+        await self.hass.async_add_executor_job(self.api.turn_on_light, self.data.id)
 
-    async def turn_off_light(self)-> None:
+    async def turn_off_light(self) -> None:
         """Turn off pool light."""
-        await self.api.turn_off_light( self.data.id )
+        await self.hass.async_add_executor_job(self.api.turn_off_light, self.data.id)

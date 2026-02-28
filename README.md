@@ -15,6 +15,7 @@ Afterwards you can go to the Integrations sections and click the add integration
 It will automatically add all the sensors to your Home Assistant installation and show each one in the lovelace UI.
 
 ## Changelog
+- 2026-02-28 Bugfix: Refresh token and async pattern
 - 2026-02-15 Bugfix: Failed signin
 - 2024-08-12 Bugfix: Removed parameter classification that caused integration to fail on startup.
 - 2024-08-09 Bugfix: Entities might not always be updated after receiving new data.

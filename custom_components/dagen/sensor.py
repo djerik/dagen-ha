@@ -1,6 +1,12 @@
 """Dagen value sensors."""
+
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
-from homeassistant.const import PERCENTAGE, UnitOfElectricPotential, UnitOfTemperature, CONCENTRATION_PARTS_PER_MILLION
+from homeassistant.const import (
+    CONCENTRATION_PARTS_PER_MILLION,
+    PERCENTAGE,
+    UnitOfElectricPotential,
+    UnitOfTemperature,
+)
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -15,7 +21,7 @@ from .const import (
 )
 
 
-async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> bool:
     """Set up a config entry."""
     dataservice = hass.data[DOMAIN].get(entry.entry_id)
 
@@ -30,7 +36,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
         ),
     )
 
-    if dataservice.get_value( PATH_HASCD ):
+    if dataservice.get_value(PATH_HASCD):
         entities.append(
             DagenValueSensorEntity(
                 hass,
@@ -40,7 +46,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
             ),
         )
 
-    if dataservice.get_value( PATH_HASCL ):
+    if dataservice.get_value(PATH_HASCL):
         entities.append(
             DagenValueSensorEntity(
                 hass,
@@ -49,11 +55,11 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
                 "modules.cl.current",
                 SensorDeviceClass.VOLATILE_ORGANIC_COMPOUNDS_PARTS,
                 CONCENTRATION_PARTS_PER_MILLION,
-                "mdi:gauge"
+                "mdi:gauge",
             ),
         )
 
-    if dataservice.get_value( PATH_HASPH ):
+    if dataservice.get_value(PATH_HASPH):
         entities.append(
             DagenValueSensorEntity(
                 hass,
@@ -61,11 +67,11 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
                 "pH",
                 "modules.ph.current",
                 SensorDeviceClass.PH,
-                None
+                None,
             ),
         )
 
-    if dataservice.get_value( PATH_HASRX ):
+    if dataservice.get_value(PATH_HASRX):
         entities.append(
             DagenRxValueSensorEntity(
                 hass,
@@ -75,7 +81,7 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
             ),
         )
 
-    if dataservice.get_value( PATH_HASUV ):
+    if dataservice.get_value(PATH_HASUV):
         entities.append(
             DagenValueSensorEntity(
                 hass,
@@ -85,17 +91,20 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
             ),
         )
 
-    if dataservice.get_value( PATH_HASHIDRO ):
+    if dataservice.get_value(PATH_HASHIDRO):
         entities.append(
             DagenHydrolyserSensorEntity(
                 hass,
                 dataservice,
-                "Electrolysis" if dataservice.get_value( "hidro.is_electrolysis") else "Hidrolysis",
+                "Electrolysis"
+                if dataservice.get_value("hidro.is_electrolysis")
+                else "Hidrolysis",
                 "hidro.current",
             ),
         )
 
     async_add_entities(entities)
+
 
 class DagenTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
     """Dagen Temperature Sensor Entity."""
@@ -103,7 +112,7 @@ class DagenTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
     _attr_device_class = SensorDeviceClass.TEMPERATURE
     _attr_native_unit_of_measurement = UnitOfTemperature.CELSIUS
 
-    def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
+    def __init__(self, hass: HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize Temperature Sensor."""
         super().__init__(dataservice)
         self._dataservice = dataservice
@@ -127,10 +136,20 @@ class DagenTemperatureSensorEntity(CoordinatorEntity, SensorEntity):
         """The unique id of the sensor."""
         return self._unique_id
 
+
 class DagenValueSensorEntity(CoordinatorEntity, SensorEntity):
     """Dagen Value Sensor Entity."""
 
-    def __init__(self, hass : HomeAssistant, dataservice, name, value_path, device_class:SensorDeviceClass = None, native_unit_of_measurement:str = None, icon:str = None) -> None:
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        dataservice,
+        name,
+        value_path,
+        device_class: SensorDeviceClass | None = None,
+        native_unit_of_measurement: str | None = None,
+        icon: str | None = None,
+    ) -> None:
         """Initialize Value Sensor such as pH."""
         super().__init__(dataservice)
         self._dataservice = dataservice
@@ -144,7 +163,9 @@ class DagenValueSensorEntity(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
-        self._attr_native_value = float(self._dataservice.get_value(self._value_path)) / 100
+        self._attr_native_value = (
+            float(self._dataservice.get_value(self._value_path)) / 100
+        )
         self.async_write_ha_state()
 
     @property
@@ -152,13 +173,14 @@ class DagenValueSensorEntity(CoordinatorEntity, SensorEntity):
         """The unique id of the sensor."""
         return self._unique_id
 
+
 class DagenHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
     """Dagen Hydrolyser Sensor Entity."""
 
     _attr_icon = "mdi:gauge"
     _attr_native_unit_of_measurement = PERCENTAGE
 
-    def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
+    def __init__(self, hass: HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize Hydrolyser Sensor."""
         super().__init__(dataservice)
         self._dataservice = dataservice
@@ -169,7 +191,9 @@ class DagenHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
-        self._attr_native_value = float(self._dataservice.get_value(self._value_path)) / 10
+        self._attr_native_value = (
+            float(self._dataservice.get_value(self._value_path)) / 10
+        )
         self.async_write_ha_state()
 
     @property
@@ -177,13 +201,14 @@ class DagenHydrolyserSensorEntity(CoordinatorEntity, SensorEntity):
         """The unique id of the sensor."""
         return self._unique_id
 
+
 class DagenRxValueSensorEntity(CoordinatorEntity, SensorEntity):
     """Dagen Rx Sensor Entity."""
 
     _attr_icon = "mdi:gauge"
     _attr_native_unit_of_measurement = UnitOfElectricPotential.MILLIVOLT
 
-    def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
+    def __init__(self, hass: HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize Hydrolyser Sensor."""
         super().__init__(dataservice)
         self._dataservice = dataservice

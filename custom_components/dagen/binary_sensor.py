@@ -9,7 +9,7 @@ from homeassistant.helpers.update_coordinator import CoordinatorEntity
 from .const import DOMAIN, PATH_HASCD, PATH_HASCL, PATH_HASPH, PATH_HASRX
 
 
-async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> bool:
+async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> bool:
     """Set up a config entry."""
     dataservice = hass.data[DOMAIN].get(entry.entry_id)
 
@@ -17,23 +17,25 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     entities.append(DagenBinarySensorEntity(hass, dataservice, "FL1", "hidro.fl1"))
 
-    if dataservice.get_value( "main.hasCL"):
+    if dataservice.get_value("main.hasCL"):
         entities.append(DagenBinarySensorEntity(hass, dataservice, "FL2", "hidro.fl2"))
 
-    if dataservice.get_value( PATH_HASCD ) or \
-       dataservice.get_value( PATH_HASCL ) or \
-       dataservice.get_value( PATH_HASPH ) or \
-       dataservice.get_value( PATH_HASRX ):
-        entities.append(DagenBinarySensorTankEntity(hass, dataservice, "Acid Tank" ) )
+    if (
+        dataservice.get_value(PATH_HASCD)
+        or dataservice.get_value(PATH_HASCL)
+        or dataservice.get_value(PATH_HASPH)
+        or dataservice.get_value(PATH_HASRX)
+    ):
+        entities.append(DagenBinarySensorTankEntity(hass, dataservice, "Acid Tank"))
 
-    entities.append(DagenBinarySensorEntity(hass, dataservice, "Electrolysis Low" if dataservice.get_value( "hidro.is_electrolysis") else "Hidrolysis Low", "hidro.low"))
+    entities.append(DagenBinarySensorEntity(hass, dataservice, "Electrolysis Low" if dataservice.get_value("hidro.is_electrolysis") else "Hidrolysis Low", "hidro.low"))
 
     async_add_entities(entities)
 
 class DagenBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
     """Dagen Binary Sensor Entity such flow sensors FL1 & FL2."""
 
-    def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
+    def __init__(self, hass: HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize a Dagen Binary Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
@@ -60,7 +62,7 @@ class DagenBinarySensorEntity(CoordinatorEntity, BinarySensorEntity):
 class DagenBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
     """Dagen Binary Sensor Entity Tank."""
 
-    def __init__(self, hass : HomeAssistant, dataservice, name) -> None:
+    def __init__(self, hass: HomeAssistant, dataservice, name) -> None:
         """Initialize a Dagen Binary Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
@@ -70,14 +72,12 @@ class DagenBinarySensorTankEntity(CoordinatorEntity, BinarySensorEntity):
     @callback
     def _handle_coordinator_update(self) -> None:
         """Handle updated data from the coordinator."""
-        if( self._dataservice.get_value("modules.ph.tank") or \
-            self._dataservice.get_value("modules.rx.tank") or \
-            self._dataservice.get_value("modules.cl.tank") or \
-            self._dataservice.get_value("modules.cd.tank")
-        ):
-            self._attr_is_on = True
-        else:
-            self._attr_is_on = False
+        self._attr_is_on = bool(
+            self._dataservice.get_value("modules.ph.tank")
+            or self._dataservice.get_value("modules.rx.tank")
+            or self._dataservice.get_value("modules.cl.tank")
+            or self._dataservice.get_value("modules.cd.tank")
+        )
         self.async_write_ha_state()
 
     @property

@@ -36,9 +36,11 @@ class Dagen:
         self.username = username
         self.password = password
         self.tokens = None
-        self.expiry = datetime.datetime.now() + datetime.timedelta(seconds=5)
-        self.credentials = Credentials | None
-        self.client = Client | None
+        self.expiry = datetime.datetime.now(datetime.UTC).replace(
+            tzinfo=None
+        ) + datetime.timedelta(seconds=120)
+        self.credentials: Credentials | None = None
+        self.client: Client | None = None
         self.handlers = []
 
     @classmethod
@@ -61,7 +63,7 @@ class Dagen:
     def get_token_and_expiry(self, request, scopes) -> Any:
         """Return the token as json."""
         request_url = f"{GOOGLE_IDENTITY_REST_API}:signInWithPassword?key={API_KEY}"
-        headers = {"content-type": "application/json; charset=UTF-8"}
+        headers = self._build_headers("application/json; charset=UTF-8")
         data = json.dumps(
             {
                 "email": self.username,
@@ -78,9 +80,9 @@ class Dagen:
             raise UnauthorizedException(e, req.text) from e
 
         self.tokens = req.json()
-        self.expiry = datetime.datetime.now() + datetime.timedelta(
-            seconds=int(self.tokens["expiresIn"])
-        )
+        self.expiry = datetime.datetime.now(datetime.UTC).replace(
+            tzinfo=None
+        ) + datetime.timedelta(seconds=int(self.tokens["expiresIn"]))
 
         return self.tokens["idToken"], self.expiry
 
@@ -100,9 +102,9 @@ class Dagen:
             if resp.status != 200:
                 raise UnauthorizedException(resp.reason)
             self.tokens = await resp.json()
-            self.expiry = datetime.datetime.now() + datetime.timedelta(
-                seconds=int(self.tokens["expiresIn"])
-            )
+            self.expiry = datetime.datetime.now(datetime.UTC).replace(
+                tzinfo=None
+            ) + datetime.timedelta(seconds=int(self.tokens["expiresIn"]))
         except ClientResponseError as err:
             if err.status == HTTPStatus.UNAUTHORIZED:
                 raise UnauthorizedException(err) from err
@@ -123,7 +125,7 @@ class Dagen:
             return f"{parsed.scheme}://{parsed.netloc}"
         return referrer or None
 
-    async def get_pools(self):
+    def get_pools(self):
         """Get all pools for current user."""
         data = {}
         user_dict = (
@@ -148,33 +150,36 @@ class Dagen:
         doc_ref.on_snapshot(self.__on_snapshot)
         self.handlers.append(handler)
 
-    async def turn_on_light(self, pool_id) -> None:
+    def turn_on_light(self, pool_id) -> None:
         """Turn on light."""
         pool_data = self.__get_pool_as_json(pool_id)
         pool_data["pool"]["light"]["status"] = 1
         pool_data["changes"] = [
             {"kind": "E", "path": ["light", "status"], "lhs": 0, "rhs": 1}
         ]
-        await self.__send_command(pool_data)
+        self.__send_command(pool_data)
 
-    async def turn_off_light(self, pool_id) -> None:
+    def turn_off_light(self, pool_id) -> None:
         """Turn off light."""
         pool_data = self.__get_pool_as_json(pool_id)
         pool_data["pool"]["light"]["status"] = 0
         pool_data["changes"] = [
             {"kind": "E", "path": ["light", "status"], "lhs": 1, "rhs": 0}
         ]
-        await self.__send_command(pool_data)
+        self.__send_command(pool_data)
 
-    async def __send_command(self, data) -> None:
+    def __send_command(self, data) -> None:
         headers = {"Authorization": "Bearer " + self.tokens["idToken"]}
-        await self.aiohttp_session.post(
-            f"{HAYWARD_REST_API}/sendCommand", json=data, headers=headers
+        requests.post(
+            f"{HAYWARD_REST_API}/sendCommand",
+            json=data,
+            headers=headers,
+            timeout=60,
         )
 
     def __get_pool_as_json(self, pool_id):
         pool = self.get_pool(pool_id)
-        data = {
+        return {
             "gateway": pool.get("wifi"),
             "operation": "WRP",
             "operationId": None,
@@ -189,7 +194,6 @@ class Dagen:
             "poolId": pool_id,
             "source": "web",
         }
-        return data
 
     def __on_snapshot(self, doc_snapshot, changes, read_time) -> None:
         """Create a callback on_snapshot function to capture changes."""

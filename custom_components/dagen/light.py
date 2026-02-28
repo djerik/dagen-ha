@@ -1,11 +1,13 @@
 """Dagen light entity."""
+
 from homeassistant.components.light import ColorMode, LightEntity
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import DOMAIN
 
-async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> bool:
+
+async def async_setup_entry(hass: HomeAssistant, entry, async_add_entities) -> bool:
     """Set up a config entry."""
     dataservice = hass.data[DOMAIN].get(entry.entry_id)
 
@@ -15,14 +17,14 @@ async def async_setup_entry(hass : HomeAssistant, entry, async_add_entities) -> 
 
     async_add_entities(entities)
 
+
 class DagenLightEntity(CoordinatorEntity, LightEntity):
     """Dagen Light Sensor Entity."""
-
 
     _attr_supported_color_modes = {ColorMode.ONOFF}
     _attr_color_mode = ColorMode.ONOFF
 
-    def __init__(self, hass : HomeAssistant, dataservice, name, value_path) -> None:
+    def __init__(self, hass: HomeAssistant, dataservice, name, value_path) -> None:
         """Initialize a Dagen Light Sensor Entity."""
         super().__init__(dataservice)
         self._dataservice = dataservice
